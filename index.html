@@ -471,5 +471,69 @@
         const list = dataStore[currentEvent].members;
 
         const found = list.find(m => {
-          const mName = (m.name || '').toLowerCase().replace(/\s+/g, '');
+                    const mName = (m.name || '').toLowerCase().replace(/\s+/g, '');
+          const mPhone = (m.phone || '').replace(/\D/g, '').slice(-10);
+          const matchName = nameIn ? (mName.includes(nameIn) || nameIn.includes(mName)) : false;
+          const matchPhone = phoneIn ? (mPhone === phoneIn) : false;
+          return matchName || matchPhone;
+        });
+
+        if (found) {
+          document.getElementById('c-name').innerText = found.name;
+          document.getElementById('c-amount').innerText = found.amount;
+          document.getElementById('c-mode').innerText = found.mode;
+          if (found.photo) {
+            document.getElementById('c-photo').src = found.photo;
+          } else {
+            document.getElementById('c-photo').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(found.name)}&background=064e3b&color=fff&size=200`;
+          }
+
+          const waText = encodeURIComponent(`🌸 *गुलज़ारबाग कमिटी सम्मान-पत्र* 🌸\nनाम: ${found.name}\nसहयोग: ${found.amount} (${found.mode})\nवेबसाइट पर देखें: ${window.location.href}`);
+          document.getElementById('wa-share-btn').href = `https://api.whatsapp.com/send?text=${waText}`;
+
+          const resBox = document.getElementById('cert-result');
+          resBox.style.display = 'block';
+          resBox.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          alert('दर्ज किया गया नाम रिकॉर्ड में नहीं मिला। कृपया सही नाम टाइप करें (उदा. Imran Khan, Saif Ali, Firoz Khan)।');
+        }
+      };
+
+      document.querySelectorAll('.chip-btn').forEach(btn => {
+        btn.onclick = function() {
+          document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('selected'));
+          this.classList.add('selected');
+          document.getElementById('pay-custom-amount').value = this.getAttribute('data-val');
+        };
+      });
+
+      document.getElementById('btn-gen-qr').onclick = function() {
+        const amt = document.getElementById('pay-custom-amount').value || 200;
+        const name = (document.getElementById('pay-name').value || '').trim() || 'Contributor';
+        const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(COMMITTEE_NAME)}&am=${amt}&cu=INR&tn=${encodeURIComponent(currentEvent + ' Sahyog - ' + name)}`;
+        const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
+        
+        document.getElementById('upi-qr-img').src = qrApiUrl;
+        document.getElementById('upi-pay-link').href = upiUrl;
+        document.getElementById('pay-display-amt').innerText = `सहयोग राशि: ₹${amt}`;
+        
+        const pModal = document.getElementById('payment-modal');
+        pModal.style.display = 'block';
+        pModal.scrollIntoView({ behavior: 'smooth' });
+      };
+
+            document.getElementById('btn-dl-cert').onclick = function() {
+        const cert = document.getElementById('certificate-node');
+        html2canvas(cert, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+          const link = document.createElement('a');
+          link.download = `Gulzarbagh_Certificate_${currentEvent}.png`;
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        });
+      };
+    });
+  </script>
+</body>
+</html>
+
   
