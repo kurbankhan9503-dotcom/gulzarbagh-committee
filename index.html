@@ -247,7 +247,6 @@
   </div>
 
   <div class="main-wrapper">
-    <!-- Live Fund Card -->
     <div class="fund-card">
       <div class="fund-header">
         <div class="fund-title" id="fund-event-title">मिलाद परचम मुहिम फ़ंड</div>
@@ -263,13 +262,11 @@
       </div>
     </div>
 
-    <!-- Mode Tabs -->
     <div class="action-grid">
       <div class="action-card active-sec" id="sec-btn-cert">📜 सम्मान-पत्र खोजें</div>
       <div class="action-card" id="sec-btn-donate">🤝 ऑनलाइन सहयोग करें</div>
     </div>
 
-    <!-- Certificate Section -->
     <div class="card-box" id="section-certificate">
       <div class="box-title">डिजिटल सम्मान-पत्र खोजें</div>
       <div class="box-sub">सहयोगी का नाम या मोबाइल नंबर दर्ज करें</div>
@@ -284,7 +281,6 @@
       </div>
       <button type="button" class="btn-main" id="btn-search-cert">सत्यापित करें एवं सर्टिफिकेट देखें</button>
 
-      <!-- Certificate Output -->
       <div id="cert-result">
         <div class="royal-cert-container" id="certificate-node">
           <div class="royal-cert-inner">
@@ -338,7 +334,6 @@
       </div>
     </div>
 
-    <!-- Donation Section -->
     <div class="card-box" id="section-donation" style="display: none;">
       <div class="box-title">कमिटी में सहयोग राशि भेजें</div>
       <div class="box-sub">सीधे UPI / QR कोड के माध्यम से सहयोग करें</div>
@@ -378,7 +373,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const UPI_ID = "8287835628@ybl";
+      const UPI_ID = "kurbankhan9503@kotak";
       const COMMITTEE_NAME = "Gulzarbagh Committee";
 
       const dataStore = {
@@ -471,9 +466,9 @@
         const list = dataStore[currentEvent].members;
 
         const found = list.find(m => {
-                    const mName = (m.name || '').toLowerCase().replace(/\s+/g, '');
+          const mName = (m.name || '').toLowerCase().replace(/\s+/g, '');
           const mPhone = (m.phone || '').replace(/\D/g, '').slice(-10);
-          const matchName = nameIn ? (mName.includes(nameIn) || nameIn.includes(mName)) : false;
+                    const matchName = nameIn ? (mName.includes(nameIn) || nameIn.includes(mName)) : false;
           const matchPhone = phoneIn ? (mPhone === phoneIn) : false;
           return matchName || matchPhone;
         });
@@ -522,7 +517,7 @@
         pModal.scrollIntoView({ behavior: 'smooth' });
       };
 
-            document.getElementById('btn-dl-cert').onclick = function() {
+      document.getElementById('btn-dl-cert').onclick = function() {
         const cert = document.getElementById('certificate-node');
         html2canvas(cert, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
           const link = document.createElement('a');
@@ -535,5 +530,3 @@
   </script>
 </body>
 </html>
-
-  
