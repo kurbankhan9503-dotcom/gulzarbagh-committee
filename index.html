@@ -41,7 +41,7 @@
 
     .main-wrapper { max-width: 550px; margin: -10px auto 0; padding: 0 16px; }
 
-    /* Fund Overview Card */
+    /* Fund Card */
     .fund-card {
       background: #fff;
       border-radius: 16px;
@@ -58,7 +58,7 @@
     .progress-bar-fill { background: linear-gradient(90deg, #10b981, #047857); height: 100%; border-radius: 4px; }
     .fund-stats { display: flex; justify-content: space-between; font-size: 12px; color: #64748b; }
 
-    /* Action Buttons */
+    /* Action Tabs */
     .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
     .action-card {
       background: #fff;
@@ -119,9 +119,9 @@
       cursor: pointer;
     }
     .btn-gold { background: var(--gold-gradient); color: #fff; }
-    .btn-wa { background: #25d366; color: #fff; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; padding: 13px; border-radius: 8px; font-weight: bold; font-size: 14px; box-shadow: 0 4px 12px rgba(37,211,102,0.25); }
+    .btn-wa { background: #25d366; color: #fff; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; padding: 13px; border-radius: 8px; font-weight: bold; font-size: 14px; }
 
-    /* ROYAL CERTIFICATE DESIGN */
+    /* Royal Certificate */
     #cert-result { display: none; margin-top: 25px; }
     .royal-cert-container {
       background: #fdfbf7;
@@ -141,11 +141,10 @@
       background-image: radial-gradient(#fdfbf7 70%, #fef3c7 100%);
     }
 
-    /* Ornamental Corners */
     .corner-motif {
       position: absolute;
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       border: 3px solid #b45309;
     }
     .c-tl { top: 4px; left: 4px; border-right: none; border-bottom: none; }
@@ -153,8 +152,8 @@
     .c-bl { bottom: 4px; left: 4px; border-right: none; border-top: none; }
     .c-br { bottom: 4px; right: 4px; border-left: none; border-top: none; }
 
-    .cert-bismillah { font-size: 20px; color: var(--primary); font-family: serif; margin-bottom: 4px; letter-spacing: 1px; font-weight: bold; }
-    .cert-heading-main { font-size: 18px; font-weight: 900; color: var(--primary-dark); letter-spacing: 0.5px; }
+    .cert-bismillah { font-size: 20px; color: var(--primary); font-family: serif; margin-bottom: 4px; font-weight: bold; }
+    .cert-heading-main { font-size: 18px; font-weight: 900; color: var(--primary-dark); }
     
     .cert-badge-pill {
       display: inline-block;
@@ -165,12 +164,9 @@
       padding: 4px 14px;
       border-radius: 20px;
       text-transform: uppercase;
-      letter-spacing: 1px;
       margin: 8px 0 14px;
-      box-shadow: 0 2px 8px rgba(180,83,9,0.25);
     }
 
-    /* Photo Frame with Royal Ring */
     .cert-photo-ring {
       width: 105px;
       height: 105px;
@@ -178,7 +174,6 @@
       background: var(--gold-gradient);
       padding: 3px;
       margin: 0 auto 12px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
     }
     .cert-photo-inner {
       width: 100%;
@@ -201,7 +196,6 @@
       font-weight: 500;
     }
 
-    /* Info Cards Ribbon */
     .cert-ribbon-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -216,7 +210,6 @@
     .cert-ribbon-lbl { font-size: 10px; color: #64748b; font-weight: 700; margin-bottom: 2px; }
     .cert-ribbon-val { font-size: 14px; font-weight: 900; color: var(--primary); }
 
-    /* Footer Stamp / Seal */
     .cert-footer-seal {
       display: flex;
       justify-content: space-between;
@@ -227,9 +220,6 @@
       color: #64748b;
     }
     .seal-badge {
-      display: flex;
-      align-items: center;
-      gap: 4px;
       font-weight: 800;
       color: #047857;
       background: #ecfdf5;
@@ -238,7 +228,6 @@
       border: 1px solid #a7f3d0;
     }
 
-    /* Payment Modal */
     #payment-modal { display: none; text-align: center; margin-top: 20px; padding-top: 15px; border-top: 1px dashed #cbd5e1; }
     .qr-wrap { margin: 12px auto; width: 180px; height: 180px; border: 2px solid #e2e8f0; border-radius: 12px; padding: 6px; background: #fff; }
     .qr-wrap img { width: 100%; height: 100%; object-fit: contain; }
@@ -274,7 +263,7 @@
       </div>
     </div>
 
-    <!-- Toggle Buttons -->
+    <!-- Mode Tabs -->
     <div class="action-grid">
       <div class="action-card active-sec" id="sec-btn-cert">📜 सम्मान-पत्र खोजें</div>
       <div class="action-card" id="sec-btn-donate">🤝 ऑनलाइन सहयोग करें</div>
@@ -295,7 +284,7 @@
       </div>
       <button type="button" class="btn-main" id="btn-search-cert">सत्यापित करें एवं सर्टिफिकेट देखें</button>
 
-      <!-- ROYAL CERTIFICATE DESIGN -->
+      <!-- Certificate Output -->
       <div id="cert-result">
         <div class="royal-cert-container" id="certificate-node">
           <div class="royal-cert-inner">
@@ -308,23 +297,19 @@
             <div class="cert-heading-main" id="c-event-title">गुलज़ारबाग परचम मुहिम</div>
             <div class="cert-badge-pill" id="c-event-sub">डिजिटल सम्मान-पत्र</div>
 
-            <!-- Profile Photo -->
             <div class="cert-photo-ring">
               <div class="cert-photo-inner">
                 <img id="c-photo" src="IMG_20260722_150011.jpg" alt="Photo" onerror="this.src='https://ui-avatars.com/api/?name=Member&background=064e3b&color=fff'">
               </div>
             </div>
 
-            <!-- Contributor Name -->
             <div class="cert-person-name" id="c-name">Kurban Khan</div>
             <div class="cert-status-tag">★ सम्मानित सहयोगी / Contributor ★</div>
 
-            <!-- Message -->
             <div class="cert-appreciation-msg" id="c-msg">
               मुबारक मौके पर गुलज़ारबाग कमिटी में आपके ख़ालिस माली व ज़ाती सहयोग की क़द्र करते हुए यह सम्मान-पत्र प्रदान किया जाता है। अल्लाह आपकी ख़िदमत को क़बूल फ़रमाए।
             </div>
 
-            <!-- 3-Pill Details Ribbon -->
             <div class="cert-ribbon-grid">
               <div class="cert-ribbon-item">
                 <div class="cert-ribbon-lbl">सहयोग राशि</div>
@@ -340,12 +325,9 @@
               </div>
             </div>
 
-            <!-- Footer Seal & Auth -->
             <div class="cert-footer-seal">
               <span>गुलज़ारबाग कमिटी</span>
-              <div class="seal-badge">
-                <span>🛡️ ऑफिशियल डिजिटल रिकॉर्ड</span>
-              </div>
+              <div class="seal-badge">🛡️ ऑफिशियल डिजिटल रिकॉर्ड</div>
               <span>बरवाडीह</span>
             </div>
           </div>
@@ -473,4 +455,21 @@
         document.getElementById('sec-btn-cert').classList.remove('active-sec');
         document.getElementById('section-donation').style.display = 'block';
         document.getElementById('section-certificate').style.display = 'none';
-    
+      };
+
+      document.getElementById('btn-search-cert').onclick = function() {
+        const rawName = (document.getElementById('cert-input-name').value || '').trim();
+        const rawPhone = (document.getElementById('cert-input-phone').value || '').trim();
+
+        if (!rawName && !rawPhone) {
+          alert('कृपया अपना नाम या मोबाइल नंबर दर्ज करें।');
+          return;
+        }
+
+        const nameIn = rawName.toLowerCase().replace(/\s+/g, '');
+        const phoneIn = rawPhone.replace(/\D/g, '').slice(-10);
+        const list = dataStore[currentEvent].members;
+
+        const found = list.find(m => {
+          const mName = (m.name || '').toLowerCase().replace(/\s+/g, '');
+  
