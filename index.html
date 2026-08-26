@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="hi" class="notranslate" translate="no">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>गुलज़ारबाग कमिटी — डिजिटल सेवा व सहयोग पोर्टल</title>
+  <meta name="google" content="notranslate">
+  <title>गुलज़ारबाग कमिटी पोर्टल</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     :root {
@@ -15,7 +16,7 @@
       --text: #0f172a;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); padding-bottom: 50px; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 60px; }
 
     .top-header { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: #fff; text-align: center; padding: 24px 16px 16px; }
     .bismillah { font-size: 22px; margin-bottom: 6px; font-family: serif; }
@@ -33,7 +34,6 @@
       cursor: pointer;
       background: rgba(255, 255, 255, 0.15);
       color: #fff;
-      transition: all 0.2s;
     }
     .tab-btn.active { background: #fff; color: var(--primary-dark); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
 
@@ -52,7 +52,7 @@
     .fund-badge { font-size: 11px; font-weight: bold; padding: 3px 8px; border-radius: 20px; background: var(--gold-light); color: var(--gold); }
     .fund-amount { font-size: 28px; font-weight: 900; color: var(--primary); margin-bottom: 6px; }
     .progress-bar-bg { background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 10px; }
-    .progress-bar-fill { background: linear-gradient(90deg, #10b981, #047857); height: 100%; border-radius: 4px; transition: width 0.4s ease; }
+    .progress-bar-fill { background: linear-gradient(90deg, #10b981, #047857); height: 100%; border-radius: 4px; }
     .fund-stats { display: flex; justify-content: space-between; font-size: 12px; color: #64748b; }
 
     .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
@@ -65,7 +65,6 @@
       cursor: pointer;
       font-weight: bold;
       font-size: 14px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
     }
     .action-card.active-sec { border-color: var(--primary); background: #f0fdf4; color: var(--primary); }
 
@@ -90,7 +89,6 @@
       font-size: 14px;
       outline: none;
     }
-    .input-grp input:focus { border-color: var(--primary); }
 
     .amount-chips { display: flex; gap: 8px; margin-bottom: 10px; }
     .chip-btn {
@@ -123,7 +121,7 @@
     .qr-wrap { margin: 12px auto; width: 180px; height: 180px; border: 2px solid #e2e8f0; border-radius: 12px; padding: 6px; background: #fff; }
     .qr-wrap img { width: 100%; height: 100%; object-fit: contain; }
 
-    #cert-result { display: none; margin-top: 15px; }
+    #cert-result { display: none; margin-top: 25px; }
     .cert-frame {
       background-color: #ffffff;
       border: 6px double var(--gold);
@@ -141,7 +139,7 @@
     .cert-meta-val { font-size: 14px; font-weight: bold; color: var(--primary); }
   </style>
 </head>
-<body>
+<body class="notranslate">
 
   <div class="top-header">
     <div class="bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
@@ -149,8 +147,8 @@
     <div class="portal-sub">सामूहिक खिदमत, सहयोग व डिजिटल सम्मान</div>
 
     <div class="tab-container">
-      <button class="tab-btn active" id="tab-milad" onclick="switchEvent('milad')">🟢 ईद-ए-मिलादुन्नबी ﷺ</button>
-      <button class="tab-btn" id="tab-muharram" onclick="switchEvent('muharram')">🏴 मुहर्रम-उल-हराम</button>
+      <button type="button" class="tab-btn active" id="tab-milad">🟢 ईद-ए-मिलादुन्नबी ﷺ</button>
+      <button type="button" class="tab-btn" id="tab-muharram">🏴 मुहर्रम-उल-हराम</button>
     </div>
   </div>
 
@@ -171,10 +169,11 @@
     </div>
 
     <div class="action-grid">
-      <div class="action-card active-sec" id="sec-btn-cert" onclick="showSection('cert')">📜 सम्मान-पत्र खोजें</div>
-      <div class="action-card" id="sec-btn-donate" onclick="showSection('donate')">🤝 ऑनलाइन सहयोग करें</div>
+      <div class="action-card active-sec" id="sec-btn-cert">📜 सम्मान-पत्र खोजें</div>
+      <div class="action-card" id="sec-btn-donate">🤝 ऑनलाइन सहयोग करें</div>
     </div>
 
+    <!-- Certificate Section -->
     <div class="card-box" id="section-certificate">
       <div class="box-title">डिजिटल सम्मान-पत्र खोजें</div>
       <div class="box-sub">सहयोगी का नाम या मोबाइल नंबर दर्ज करें</div>
@@ -187,7 +186,7 @@
         <label>मोबाइल नंबर (10 Digit Mobile)</label>
         <input type="tel" id="cert-input-phone" placeholder="उदा. 8766278943">
       </div>
-      <button class="btn-main" onclick="verifyAndShowCert()">सत्यापित करें एवं सर्टिफिकेट देखें</button>
+      <button type="button" class="btn-main" id="btn-search-cert">सत्यापित करें एवं सर्टिफिकेट देखें</button>
 
       <div id="cert-result">
         <div class="cert-frame" id="certificate-node">
@@ -210,7 +209,7 @@
             </div>
             <div>
               <div style="font-size: 10px; color: #64748b;">माध्यम</div>
-              <div class="cert-meta-val" id="c-mode">UPI / Cash</div>
+              <div class="cert-meta-val" id="c-mode">Cash</div>
             </div>
             <div>
               <div style="font-size: 10px; color: #64748b;">स्थिति</div>
@@ -219,11 +218,12 @@
           </div>
         </div>
 
-        <button class="btn-main btn-gold" style="margin-top: 14px;" onclick="downloadCertImage()">📥 गैलरी में सेव करें (Download)</button>
+        <button type="button" class="btn-main btn-gold" id="btn-dl-cert" style="margin-top: 14px;">📥 गैलरी में सेव करें (Download)</button>
         <a id="wa-share-btn" href="#" target="_blank" class="btn-wa">💬 WhatsApp पर शेयर करें</a>
       </div>
     </div>
 
+    <!-- Donation Section -->
     <div class="card-box" id="section-donation" style="display: none;">
       <div class="box-title">कमिटी में सहयोग राशि भेजें</div>
       <div class="box-sub">सीधे UPI / QR कोड के माध्यम से सहयोग करें</div>
@@ -240,15 +240,15 @@
       <div class="input-grp">
         <label>सहयोग राशि चुनें (₹)</label>
         <div class="amount-chips">
-          <button type="button" class="chip-btn" onclick="selectPayAmount(100, this)">₹100</button>
-          <button type="button" class="chip-btn selected" onclick="selectPayAmount(200, this)">₹200</button>
-          <button type="button" class="chip-btn" onclick="selectPayAmount(500, this)">₹500</button>
-          <button type="button" class="chip-btn" onclick="selectPayAmount(1000, this)">₹1000</button>
+          <button type="button" class="chip-btn" data-val="100">₹100</button>
+          <button type="button" class="chip-btn selected" data-val="200">₹200</button>
+          <button type="button" class="chip-btn" data-val="500">₹500</button>
+          <button type="button" class="chip-btn" data-val="1000">₹1000</button>
         </div>
         <input type="number" id="pay-custom-amount" value="200" placeholder="अन्य राशि दर्ज करें">
       </div>
 
-      <button class="btn-main" onclick="generatePaymentQR()">पेमेंट QR कोड प्राप्त करें</button>
+      <button type="button" class="btn-main" id="btn-gen-qr">पेमेंट QR कोड प्राप्त करें</button>
 
       <div id="payment-modal">
         <div class="qr-wrap">
@@ -262,120 +262,145 @@
   </div>
 
   <script>
-    const UPI_ID = "8287835628@ybl";
-    const COMMITTEE_NAME = "Gulzarbagh Committee";
+    document.addEventListener('DOMContentLoaded', function() {
+      const UPI_ID = "8287835628@ybl";
+      const COMMITTEE_NAME = "Gulzarbagh Committee";
 
-    const dataStore = {
-      milad: {
-        title: "मिलाद परचम मुहिम फ़ंड",
-        totalFund: "₹15,400",
-        donors: "48 सदस्य",
-        progress: "62%",
-        members: [
-          { name: "Kurban Khan", phone: "8766278943", amount: "₹200", mode: "Cash", photo: "IMG_20260722_150011.jpg" }
-        ]
-      },
-      muharram: {
-        title: "मुहर्रम सबील व लंगर फ़ंड",
-        totalFund: "₹21,800",
-        donors: "64 सदस्य",
-        progress: "87%",
-        members: [
-          { name: "Kurban Khan", phone: "8766278943", amount: "₹200", mode: "Online UPI", photo: "IMG_20260722_150011.jpg" }
-        ]
-      }
-    };
+      const dataStore = {
+        milad: {
+          title: "मिलाद परचम मुहिम फ़ंड",
+          totalFund: "₹15,400",
+          donors: "48 सदस्य",
+          progress: "62%",
+          members: [
+            { name: "Kurban Khan", phone: "8766278943", amount: "₹200", mode: "Cash", photo: "IMG_20260722_150011.jpg" }
+          ]
+        },
+        muharram: {
+          title: "मुहर्रम सबील व लंगर फ़ंड",
+          totalFund: "₹21,800",
+          donors: "64 सदस्य",
+          progress: "87%",
+          members: [
+            { name: "Kurban Khan", phone: "8766278943", amount: "₹200", mode: "Online UPI", photo: "IMG_20260722_150011.jpg" }
+          ]
+        }
+      };
 
-    let currentEvent = 'milad';
+      let currentEvent = 'milad';
 
-    function switchEvent(evt) {
-      currentEvent = evt;
-      document.getElementById('tab-milad').classList.toggle('active', evt === 'milad');
-      document.getElementById('tab-muharram').classList.toggle('active', evt === 'muharram');
+      // Event Switching
+      function switchEvent(evt) {
+        currentEvent = evt;
+        document.getElementById('tab-milad').classList.toggle('active', evt === 'milad');
+        document.getElementById('tab-muharram').classList.toggle('active', evt === 'muharram');
 
-      const d = dataStore[evt];
-      document.getElementById('fund-event-title').innerText = d.title;
-      document.getElementById('fund-total').innerText = d.totalFund;
-      document.getElementById('donor-count').innerText = d.donors;
-      document.getElementById('fund-bar').style.width = d.progress;
+        const d = dataStore[evt];
+        document.getElementById('fund-event-title').innerText = d.title;
+        document.getElementById('fund-total').innerText = d.totalFund;
+        document.getElementById('donor-count').innerText = d.donors;
+        document.getElementById('fund-bar').style.width = d.progress;
 
-      document.getElementById('c-event-title').innerText = evt === 'milad' ? "गुलज़ारबाग परचम मुहिम" : "मुहर्रम-उल-हराम इंतज़ामिया";
-      document.getElementById('c-event-sub').innerText = evt === 'milad' ? "ईद-ए-मिलादुन्नबी ﷺ — सम्मान-पत्र" : "खिदमत-ए-हुसैनी — सम्मान-पत्र";
-      
-      document.getElementById('cert-result').style.display = 'none';
-    }
-
-    function showSection(sec) {
-      document.getElementById('sec-btn-cert').classList.toggle('active-sec', sec === 'cert');
-      document.getElementById('sec-btn-donate').classList.toggle('active-sec', sec === 'donate');
-      document.getElementById('section-certificate').style.display = sec === 'cert' ? 'block' : 'none';
-      document.getElementById('section-donation').style.display = sec === 'donate' ? 'block' : 'none';
-    }
-
-    function verifyAndShowCert() {
-      const rawName = document.getElementById('cert-input-name').value.trim();
-      const rawPhone = document.getElementById('cert-input-phone').value.trim();
-
-      if (!rawName && !rawPhone) {
-        alert('कृपया अपना नाम या 10 अंकों का मोबाइल नंबर दर्ज करें।');
-        return;
+        document.getElementById('c-event-title').innerText = evt === 'milad' ? "गुलज़ारबाग परचम मुहिम" : "मुहर्रम-उल-हराम इंतज़ामिया";
+        document.getElementById('c-event-sub').innerText = evt === 'milad' ? "ईद-ए-मिलादुन्नबी ﷺ — सम्मान-पत्र" : "खिदमत-ए-हुसैनी — सम्मान-पत्र";
+        document.getElementById('cert-result').style.display = 'none';
       }
 
-      const nameIn = rawName.toLowerCase().replace(/\s+/g, '');
-      const phoneIn = rawPhone.replace(/\D/g, '').slice(-10);
-      const list = dataStore[currentEvent].members;
+      document.getElementById('tab-milad').onclick = () => switchEvent('milad');
+      document.getElementById('tab-muharram').onclick = () => switchEvent('muharram');
 
-      const found = list.find(m => {
-        const mName = (m.name || '').toLowerCase().replace(/\s+/g, '');
-        const mPhone = (m.phone || '').replace(/\D/g, '').slice(-10);
-        const matchName = nameIn ? (mName.includes(nameIn) || nameIn.includes(mName)) : true;
-        const matchPhone = phoneIn ? (mPhone === phoneIn) : true;
-        return matchName && matchPhone;
+      // Tab Switcher
+      document.getElementById('sec-btn-cert').onclick = function() {
+        this.classList.add('active-sec');
+        document.getElementById('sec-btn-donate').classList.remove('active-sec');
+        document.getElementById('section-certificate').style.display = 'block';
+        document.getElementById('section-donation').style.display = 'none';
+      };
+
+      document.getElementById('sec-btn-donate').onclick = function() {
+        this.classList.add('active-sec');
+        document.getElementById('sec-btn-cert').classList.remove('active-sec');
+        document.getElementById('section-donation').style.display = 'block';
+        document.getElementById('section-certificate').style.display = 'none';
+      };
+
+      // Search Certificate
+      document.getElementById('btn-search-cert').onclick = function() {
+        const rawName = (document.getElementById('cert-input-name').value || '').trim();
+        const rawPhone = (document.getElementById('cert-input-phone').value || '').trim();
+
+        if (!rawName && !rawPhone) {
+          alert('कृपया अपना नाम या 10 अंकों का मोबाइल नंबर दर्ज करें।');
+          return;
+        }
+
+        const nameIn = rawName.toLowerCase().replace(/\s+/g, '');
+        const phoneIn = rawPhone.replace(/\D/g, '').slice(-10);
+        const list = dataStore[currentEvent].members;
+
+        const found = list.find(m => {
+          const mName = (m.name || '').toLowerCase().replace(/\s+/g, '');
+          const mPhone = (m.phone || '').replace(/\D/g, '').slice(-10);
+          const matchName = nameIn ? (mName.includes(nameIn) || nameIn.includes(mName)) : false;
+          const matchPhone = phoneIn ? (mPhone === phoneIn) : false;
+          return matchName || matchPhone;
+        });
+
+        if (found) {
+          document.getElementById('c-name').innerText = found.name;
+          document.getElementById('c-amount').innerText = found.amount;
+          document.getElementById('c-mode').innerText = found.mode;
+          if (found.photo) {
+            document.getElementById('c-photo').src = found.photo;
+          }
+
+          const waText = encodeURIComponent(`🌸 *गुलज़ारबाग कमिटी सम्मान-पत्र* 🌸\nनाम: ${found.name}\nसहयोग: ${found.amount} (${found.mode})\nवेबसाइट पर देखें: ${window.location.href}`);
+          document.getElementById('wa-share-btn').href = `https://api.whatsapp.com/send?text=${waText}`;
+
+          const resBox = document.getElementById('cert-result');
+          resBox.style.display = 'block';
+          resBox.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          alert('दर्ज किया गया विवरण रिकॉर्ड में नहीं मिला।');
+        }
+      };
+
+      // Donation Amount Chips
+      document.querySelectorAll('.chip-btn').forEach(btn => {
+        btn.onclick = function() {
+          document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('selected'));
+          this.classList.add('selected');
+          document.getElementById('pay-custom-amount').value = this.getAttribute('data-val');
+        };
       });
 
-      if (found) {
-        document.getElementById('c-name').innerText = found.name;
-        document.getElementById('c-amount').innerText = found.amount;
-        document.getElementById('c-mode').innerText = found.mode;
-        if (found.photo) document.getElementById('c-photo').src = found.photo;
+      // Generate QR
+      document.getElementById('btn-gen-qr').onclick = function() {
+        const amt = document.getElementById('pay-custom-amount').value || 200;
+        const name = (document.getElementById('pay-name').value || '').trim() || 'Contributor';
+        const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(COMMITTEE_NAME)}&am=${amt}&cu=INR&tn=${encodeURIComponent(currentEvent + ' Sahyog - ' + name)}`;
+        const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
         
-        const waText = encodeURIComponent(`🌸 *गुलज़ारबाग कमिटी सम्मान-पत्र* 🌸\nनाम: ${found.name}\nसहयोग: ${found.amount} (${found.mode})\nवेबसाइट पर अपना सम्मान-पत्र देखें: ${window.location.href}`);
-        document.getElementById('wa-share-btn').href = `https://api.whatsapp.com/send?text=${waText}`;
+        document.getElementById('upi-qr-img').src = qrApiUrl;
+        document.getElementById('upi-pay-link').href = upiUrl;
+        document.getElementById('pay-display-amt').innerText = `सहयोग राशि: ₹${amt}`;
+        
+        const pModal = document.getElementById('payment-modal');
+        pModal.style.display = 'block';
+        pModal.scrollIntoView({ behavior: 'smooth' });
+      };
 
-        document.getElementById('cert-result').style.display = 'block';
-      } else {
-        alert('दर्ज किया गया विवरण रिकॉर्ड में नहीं मिला। कृपया सही नाम या मोबाइल नंबर दर्ज करें।');
-      }
-    }
-
-    function selectPayAmount(amt, el) {
-      document.getElementById('pay-custom-amount').value = amt;
-      document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('selected'));
-      if (el) el.classList.add('selected');
-    }
-
-    function generatePaymentQR() {
-      const amt = document.getElementById('pay-custom-amount').value || 200;
-      const name = document.getElementById('pay-name').value.trim() || 'Contributor';
-      const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(COMMITTEE_NAME)}&am=${amt}&cu=INR&tn=${encodeURIComponent(currentEvent + ' Sahyog - ' + name)}`;
-      
-      const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
-      
-      document.getElementById('upi-qr-img').src = qrApiUrl;
-      document.getElementById('upi-pay-link').href = upiUrl;
-      document.getElementById('pay-display-amt').innerText = `सहयोग राशि: ₹${amt}`;
-      document.getElementById('payment-modal').style.display = 'block';
-    }
-
-    function downloadCertImage() {
-      const cert = document.getElementById('certificate-node');
-      html2canvas(cert, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = `Gulzarbagh_Certificate_${currentEvent}.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-      });
-    }
+      // Download Image
+      document.getElementById('btn-dl-cert').onclick = function() {
+        const cert = document.getElementById('certificate-node');
+        html2canvas(cert, { scale: 3, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+          const link = document.createElement('a');
+          link.download = `Gulzarbagh_Certificate_${currentEvent}.png`;
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        });
+      };
+    });
   </script>
 </body>
 </html>
