@@ -19,8 +19,65 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
     body { background-color: var(--bg); color: var(--text); padding-bottom: 60px; }
 
+    /* Top Live Running Ticker */
+    .live-ticker-wrap {
+      background: #011f18;
+      color: #fef3c7;
+      overflow: hidden;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.4);
+      font-size: 12.5px;
+      height: 34px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .ticker-badge {
+      background: var(--gold-gradient);
+      color: #fff;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 0 12px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.3);
+      z-index: 2;
+    }
+    .ticker-track-box {
+      overflow: hidden;
+      white-space: nowrap;
+      width: 100%;
+    }
+    .ticker-text {
+      display: inline-block;
+      white-space: nowrap;
+      padding-left: 100%;
+      animation: tickerSlide 35s linear infinite;
+    }
+    .ticker-text:hover {
+      animation-play-state: paused;
+    }
+    @keyframes tickerSlide {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-100%, 0, 0); }
+    }
+    .ticker-item {
+      display: inline-block;
+      margin-right: 30px;
+      font-weight: 600;
+    }
+    .ticker-item b {
+      color: #6ee7b7;
+      font-weight: 800;
+    }
+
     /* Header */
-    .top-header { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: #fff; text-align: center; padding: 24px 16px 16px; }
+    .top-header { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: #fff; text-align: center; padding: 20px 16px 16px; }
     .bismillah { font-size: 22px; margin-bottom: 6px; font-family: serif; }
     .portal-title { font-size: 20px; font-weight: 800; }
     .portal-sub { font-size: 13px; color: #a7f3d0; margin-bottom: 16px; }
@@ -235,6 +292,16 @@
 </head>
 <body class="notranslate">
 
+  <!-- Live Top Ticker -->
+  <div class="live-ticker-wrap">
+    <div class="ticker-badge">🔴 लाइव सहयोग</div>
+    <div class="ticker-track-box">
+      <div class="ticker-text" id="ticker-content">
+        लोड हो रहा है...
+      </div>
+    </div>
+  </div>
+
   <div class="top-header">
     <div class="bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
     <div class="portal-title">गुलज़ारबाग कमिटी पोर्टल</div>
@@ -416,12 +483,22 @@
           ]
         }
       };
-      
-        
-          
-                    
 
       var currentEvent = "milad";
+
+      function updateTicker(evt) {
+        var mList = dataStore[evt].members;
+        var tickerHtml = "";
+        for (var i = 0; i < mList.length; i++) {
+          if (mList[i].amount !== "₹0") {
+            tickerHtml += "<span class='ticker-item'>✨ " + mList[i].name + ": <b>" + mList[i].amount + "</b> (" + mList[i].mode + ")</span>";
+          }
+        }
+        if (!tickerHtml) {
+          tickerHtml = "<span class='ticker-item'>✨ गुलज़ारबाग कमिटी में आपका स्वागत है — सहयोग के लिए 'ऑनलाइन सहयोग करें' पर टैप करें।</span>";
+        }
+        document.getElementById("ticker-content").innerHTML = tickerHtml;
+      }
 
       function switchEvent(evt) {
         currentEvent = evt;
@@ -431,112 +508,4 @@
         var d = dataStore[evt];
         document.getElementById("fund-event-title").innerText = d.title;
         document.getElementById("fund-total").innerText = d.totalFund;
-        document.getElementById("donor-count").innerText = d.donors;
-        document.getElementById("fund-bar").style.width = d.progress;
-
-        document.getElementById("c-event-title").innerText = evt === "milad" ? "गुलज़ारबाग परचम मुहिम" : "मुहर्रम-उल-हराम इंतज़ामिया";
-        document.getElementById("c-event-sub").innerText = evt === "milad" ? "ईद-ए-मिलादुन्नबी ﷺ — सम्मान-पत्र" : "खिदमत-ए-हुसैनी — सम्मान-पत्र";
-        document.getElementById("cert-result").style.display = "none";
-      }
-
-      document.getElementById("tab-milad").onclick = function() { switchEvent("milad"); };
-      document.getElementById("tab-muharram").onclick = function() { switchEvent("muharram"); };
-
-      document.getElementById("sec-btn-cert").onclick = function() {
-        this.classList.add("active-sec");
-        document.getElementById("sec-btn-donate").classList.remove("active-sec");
-        document.getElementById("section-certificate").style.display = "block";
-        document.getElementById("section-donation").style.display = "none";
-      };
-
-      document.getElementById("sec-btn-donate").onclick = function() {
-        this.classList.add("active-sec");
-        document.getElementById("sec-btn-cert").classList.remove("active-sec");
-        document.getElementById("section-donation").style.display = "block";
-        document.getElementById("section-certificate").style.display = "none";
-      };
-
-      document.getElementById("btn-search-cert").onclick = function() {
-        var rawName = (document.getElementById("cert-input-name").value || "").trim();
-        var rawPhone = (document.getElementById("cert-input-phone").value || "").trim();
-
-        if (!rawName && !rawPhone) {
-          alert("कृपया अपना नाम या मोबाइल नंबर दर्ज करें।");
-          return;
-        }
-
-        var nameIn = rawName.toLowerCase().replace(/\s+/g, "");
-        var phoneIn = rawPhone.replace(/\D/g, "").slice(-10);
-        var list = dataStore[currentEvent].members;
-
-        var found = list.find(function(m) {
-          var mName = (m.name || "").toLowerCase().replace(/\s+/g, "");
-          var mPhone = (m.phone || "").replace(/\D/g, "").slice(-10);
-                    var matchName = nameIn ? (mName.indexOf(nameIn) !== -1 || nameIn.indexOf(mName) !== -1) : false;
-          var matchPhone = phoneIn ? (mPhone === phoneIn) : false;
-          return matchName || matchPhone;
-        });
-
-        if (found) {
-          document.getElementById("c-name").innerText = found.name;
-          document.getElementById("c-amount").innerText = found.amount;
-          document.getElementById("c-mode").innerText = found.mode;
-          if (found.photo) {
-            document.getElementById("c-photo").src = found.photo;
-          } else {
-            document.getElementById("c-photo").src = "https://ui-avatars.com/api/?name=" + encodeURIComponent(found.name) + "&background=064e3b&color=fff&size=200";
-          }
-
-          var waText = encodeURIComponent("🌸 *गुलज़ारबाग कमिटी सम्मान-पत्र* 🌸\nनाम: " + found.name + "\nसहयोग: " + found.amount + " (" + found.mode + ")\nवेबसाइट पर देखें: " + window.location.href);
-          document.getElementById("wa-share-btn").href = "https://api.whatsapp.com/send?text=" + waText;
-
-          var resBox = document.getElementById("cert-result");
-          resBox.style.display = "block";
-          resBox.scrollIntoView({ behavior: "smooth" });
-        } else {
-          alert("दर्ज किया गया नाम रिकॉर्ड में नहीं मिला। कृपया सही नाम टाइप करें (उदा. Imran Khan, Saif Ali, Firoz Khan)।");
-        }
-      };
-
-      var chips = document.querySelectorAll(".chip-btn");
-      for (var i = 0; i < chips.length; i++) {
-        chips[i].onclick = function() {
-          for (var j = 0; j < chips.length; j++) {
-            chips[j].classList.remove("selected");
-          }
-          this.classList.add("selected");
-          document.getElementById("pay-custom-amount").value = this.getAttribute("data-val");
-        };
-      }
-
-      document.getElementById("btn-gen-qr").onclick = function() {
-        var amt = document.getElementById("pay-custom-amount").value || 200;
-        var name = (document.getElementById("pay-name").value || "").trim() || "Contributor";
-        var upiUrl = "upi://pay?pa=" + UPI_ID + "&pn=" + encodeURIComponent(COMMITTEE_NAME) + "&am=" + amt + "&cu=INR&tn=" + encodeURIComponent(currentEvent + " Sahyog - " + name);
-        var qrApiUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" + encodeURIComponent(upiUrl);
-        
-        document.getElementById("upi-qr-img").src = qrApiUrl;
-        document.getElementById("upi-pay-link").href = upiUrl;
-        document.getElementById("pay-display-amt").innerText = "सहयोग राशि: ₹" + amt;
-        
-        var pModal = document.getElementById("payment-modal");
-        pModal.style.display = "block";
-        pModal.scrollIntoView({ behavior: "smooth" });
-      };
-
-      document.getElementById("btn-dl-cert").onclick = function() {
-        var cert = document.getElementById("certificate-node");
-        html2canvas(cert, { scale: 3, useCORS: true, backgroundColor: "#ffffff" }).then(function(canvas) {
-          var link = document.createElement("a");
-          link.download = "Gulzarbagh_Certificate_" + currentEvent + ".png";
-          link.href = canvas.toDataURL("image/png");
-          link.click();
-        });
-      };
-    });
-  </script>
-</body>
-</html>
-
-                                    
-                                
+        docu
