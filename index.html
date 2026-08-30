@@ -1,939 +1,870 @@
 <!DOCTYPE html>
-<html lang="hi" class="notranslate" translate="no">
+<html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="google" content="notranslate">
-  <title>गुलज़ारबाग कमिटी पोर्टल</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>गुलज़ारबाग कमेटी पोर्टल • बरवाडीह</title>
   
-  <!-- Google Fonts -->
+  <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,700;1,700&family=Cinzel:wght@700;900&family=Rozha+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,700;1,700&family=Noto+Sans+Devanagari:wght@400;600;700;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- html2canvas for HD Sanad Download -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <style>
     :root {
-      --bg-dark: #02120a;
-      --card-emerald: #052618;
+      --bg-dark: #021a10;
+      --bg-gradient: linear-gradient(180deg, #01140c 0%, #032717 50%, #01130b 100%);
+      --card-bg: rgba(4, 38, 23, 0.85);
+      --gold-primary: #d4af37;
       --gold-light: #fef08a;
-      --gold-1: #d4af37;
-      --gold-2: #fff3a8;
-      --gold-3: #aa771c;
-      --gold-4: #5c3e07;
-      --gold-grad: linear-gradient(135deg, #bf953f 0%, #fcf6ba 28%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
-      --gold-btn-grad: linear-gradient(180deg, #d4af37 0%, #aa771c 100%);
-      --emerald-btn-grad: linear-gradient(180deg, #09472e 0%, #032014 100%);
-      --shadow-3d: 0 12px 28px rgba(0,0,0,0.85), inset 0 1px 1px rgba(255,255,255,0.25);
+      --gold-dark: #996515;
+      --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+      --gold-border: 1px solid rgba(212, 175, 55, 0.4);
+      --text-gold: #f6e05e;
+      --text-light: #e6f4ea;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Noto Sans Devanagari', 'Poppins', sans-serif;
+    }
+
     body {
-      background-color: var(--bg-dark);
-      background-image: 
-        radial-gradient(circle at 50% 10%, #094028 0%, #02140c 55%, #010804 100%),
-        radial-gradient(rgba(212, 175, 55, 0.12) 1px, transparent 1px);
-      background-size: 100% 100%, 22px 22px;
-      color: #f1f5f9;
-      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-light);
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      justify-content: center;
+      padding-bottom: 40px;
     }
 
-    .main-app-box {
+    .app-container {
       width: 100%;
       max-width: 480px;
-      padding: 0 12px 30px;
+      padding: 0 12px;
       position: relative;
     }
 
-    /* 3D Folded Top Gold Ribbon Ticker */
-    .ticker-container {
-      width: 100%;
-      background: linear-gradient(90deg, #021a10 0%, #073b24 50%, #021a10 100%);
-      border-bottom: 2px solid var(--gold-1);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.8);
-      position: sticky;
-      top: 0;
-      z-index: 99;
+    /* Live Ticker Bar */
+    .ticker-bar {
+      background: linear-gradient(90deg, #b8860b, #ffd700, #b8860b);
+      color: #042013;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 0 0 14px 14px;
       display: flex;
       align-items: center;
-      height: 40px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      margin-bottom: 15px;
     }
-    .ribbon-badge {
-      background: var(--gold-grad);
-      color: #2b1700;
-      font-weight: 900;
+    .ticker-badge {
+      background: #021f12;
+      color: #ffd700;
+      padding: 2px 8px;
+      border-radius: 20px;
       font-size: 11px;
-      padding: 0 16px;
-      height: 100%;
+      margin-right: 8px;
+      white-space: nowrap;
       display: flex;
       align-items: center;
-      gap: 6px;
-      clip-path: polygon(0 0, 88% 0, 100% 50%, 88% 100%, 0 100%);
-      box-shadow: 3px 0 10px rgba(0,0,0,0.5);
-      flex-shrink: 0;
+      gap: 4px;
     }
-    .ticker-scroll {
-      color: var(--gold-light);
-      font-size: 12.5px;
-      font-weight: 600;
+    .ticker-marquee {
+      white-space: nowrap;
+      overflow: hidden;
+      display: inline-block;
       width: 100%;
     }
-    .ticker-scroll b { color: #86efac; font-weight: 800; }
-
-    /* Header & Islamic Ornate Frame */
-    .portal-header {
-      text-align: center;
-      padding: 16px 4px 10px;
+    .ticker-content {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 25s linear infinite;
     }
-    .header-medallions-wrap {
+    @keyframes marquee {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-100%, 0); }
+    }
+
+    /* Islamic Top Medallions */
+    .islamic-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px 5px 12px 5px;
+    }
+    .medallion {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 2px solid #d4af37;
+      background: radial-gradient(circle, #084026 30%, #021f12 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Amiri', serif;
+      font-size: 20px;
+      font-weight: bold;
+      color: #fff2a8;
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.4), inset 0 0 8px rgba(0,0,0,0.8);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    }
+    .bismillah-art {
+      font-family: 'Amiri', serif;
+      font-size: 24px;
+      color: #fceea7;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+      flex: 1;
+      line-height: 1.2;
+    }
+
+    /* Portal Title Card */
+    .portal-banner {
+      background: var(--card-bg);
+      border: 1.5px solid #d4af37;
+      border-radius: 12px;
+      text-align: center;
+      padding: 12px;
+      margin-bottom: 14px;
+      box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.15), 0 4px 15px rgba(0,0,0,0.4);
+    }
+    .portal-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffd700;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.7);
+    }
+    .portal-subtitle {
+      font-size: 11px;
+      color: #c9e2d3;
+      margin-top: 3px;
+    }
+
+    /* Event Switcher Tabs */
+    .tabs-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .tab-btn {
+      background: rgba(3, 30, 18, 0.9);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 10px 6px;
+      border-radius: 25px;
+      color: #cbd5e1;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, #0a4d2e, #042716);
+      border-color: #ffd700;
+      color: #fff;
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+    }
+    .tab-btn small {
+      display: block;
+      font-size: 10px;
+      font-weight: normal;
+      opacity: 0.85;
+      margin-top: 2px;
+    }
+
+    /* Fund Display Card */
+    .fund-card {
+      background: var(--card-bg);
+      border: 1.5px solid #d4af37;
+      border-radius: 14px;
+      padding: 18px 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.45);
+      position: relative;
+    }
+    .fund-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 6px;
     }
-    .coin-medallion {
-      width: 62px;
-      height: 62px;
-      border-radius: 50%;
-      background: var(--gold-grad);
-      padding: 3px;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.8), 0 0 12px rgba(212, 175, 55, 0.4);
-    }
-    .coin-inner {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: radial-gradient(circle, #083c26 10%, #021a0f 90%);
-      border: 1.5px dashed var(--gold-2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--gold-light);
-      font-family: 'Amiri', serif;
-      font-size: 19px;
-      font-weight: bold;
-      text-shadow: 0 0 8px rgba(254, 240, 138, 0.7);
-    }
-    .bismillah-top {
-      font-family: 'Amiri', serif;
-      font-size: 26px;
-      color: #fff4bd;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.9), 0 0 14px rgba(212, 175, 55, 0.6);
-      margin: 4px 0 8px;
-    }
-
-    /* 3D Carved Gold Plaque (Title) */
-    .portal-plaque-title {
-      background: linear-gradient(180deg, #093c26 0%, #031c11 100%);
-      border: 2px solid transparent;
-      border-image: var(--gold-grad) 1;
-      border-radius: 12px;
-      padding: 12px 14px;
-      box-shadow: var(--shadow-3d);
-      outline: 1.5px solid rgba(212, 175, 55, 0.4);
-      outline-offset: -5px;
-      margin-bottom: 16px;
-    }
-    .portal-name {
-      font-size: 21px;
-      font-weight: 900;
-      font-family: 'Rozha One', system-ui;
-      background: var(--gold-grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 0.5px;
-    }
-    .portal-sub {
-      font-size: 11.5px;
-      color: #cbd5e1;
-      margin-top: 4px;
-    }
-
-    /* Event Selection Tabs */
-    .nav-tabs-3d {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-    .nav-tab-btn {
-      background: linear-gradient(135deg, #1b160b 0%, #0d0a04 100%);
-      border: 1.5px solid var(--gold-3);
-      padding: 10px 6px;
-      border-radius: 25px;
-      text-align: center;
-      cursor: pointer;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.6);
-      transition: all 0.25s ease;
-      color: #cbd5e1;
-    }
-    .nav-tab-btn.active {
-      background: linear-gradient(135deg, #0f442d 0%, #052316 100%);
-      border-color: var(--gold-2);
-      color: #fff;
-      box-shadow: 0 0 16px rgba(212, 175, 55, 0.45);
-    }
-    .nav-tab-btn .tab-head {
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--gold-light);
-    }
-    .nav-tab-btn .tab-sub {
-      font-size: 10.5px;
-      opacity: 0.85;
-      font-family: 'Amiri', serif;
-    }
-
-    /* Royal Fund Status Box With Mosque Arch BG */
-    .fund-status-box {
-      background: linear-gradient(180deg, #062b1b 0%, #02160d 100%);
-      border: 2px solid transparent;
-      border-image: var(--gold-grad) 1;
-      border-radius: 14px;
-      padding: 18px 16px;
-      box-shadow: var(--shadow-3d);
-      position: relative;
-      overflow: hidden;
-      margin-bottom: 18px;
-    }
-    .fund-status-box::after {
-      content: "";
-      position: absolute;
-      right: 12px;
-      bottom: 12px;
-      width: 75px;
-      height: 75px;
-      background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .fund-top-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-    .fund-heading {
+    .fund-title {
       font-size: 15px;
-      font-weight: 800;
+      font-weight: 700;
       color: #e2e8f0;
     }
-    .live-pill {
-      background: var(--gold-grad);
-      color: #031c11;
-      font-weight: 900;
-      font-size: 10.5px;
-      padding: 3px 10px;
-      border-radius: 20px;
+    .badge-live {
+      background: #fbf5b7;
+      background: var(--gold-gradient);
+      color: #042013;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 12px;
     }
-    .fund-number {
-      font-size: 34px;
-      font-weight: 900;
-      font-family: 'Rozha One', 'Cinzel', system-ui;
-      background: var(--gold-grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 8px;
-      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.9));
+    .fund-amount {
+      font-size: 36px;
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+      margin: 4px 0 10px 0;
     }
     .progress-track {
-      background: #010c06;
-      border: 1px solid var(--gold-3);
+      background: #011a10;
       height: 10px;
-      border-radius: 6px;
+      border-radius: 10px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
       overflow: hidden;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
     .progress-fill {
-      background: var(--gold-grad);
       height: 100%;
-      border-radius: 6px;
-      box-shadow: 0 0 10px rgba(252, 246, 186, 0.7);
-      transition: width 0.5s ease;
+      width: 12%;
+      background: var(--gold-gradient);
+      border-radius: 10px;
+      box-shadow: 0 0 8px #ffd700;
+      transition: width 0.8s ease;
     }
-    .fund-foot-row {
+    .fund-footer {
       display: flex;
       justify-content: space-between;
       font-size: 12px;
       color: #cbd5e1;
+      font-weight: 600;
     }
-    .fund-foot-row b { color: var(--gold-light); }
 
-    /* Action Plaques (2 Buttons) */
-    .action-row-plaques {
+    /* Quick Action Buttons */
+    .quick-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
-    .action-plaque {
-      background: linear-gradient(135deg, #062b1b 0%, #03170e 100%);
-      border: 1.5px solid var(--gold-3);
-      padding: 12px 6px;
-      border-radius: 12px;
-      text-align: center;
-      cursor: pointer;
-      color: #f1f5f9;
-      font-weight: bold;
+    .btn-action {
+      background: rgba(4, 38, 23, 0.9);
+      border: 1px solid #d4af37;
+      color: #fff2a8;
+      padding: 10px;
+      border-radius: 10px;
       font-size: 13px;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.6);
-      transition: all 0.25s ease;
-    }
-    .action-plaque.active {
-      background: linear-gradient(135deg, #0a472d 0%, #042416 100%);
-      border-color: var(--gold-2);
-      color: var(--gold-light);
-      box-shadow: 0 0 14px rgba(212, 175, 55, 0.4);
-    }
-
-    /* Content Area With 3D Mosque Arch Outline */
-    .content-arch-box {
-      background: linear-gradient(180deg, #052618 0%, #02140c 100%);
-      border: 2px solid transparent;
-      border-image: var(--gold-grad) 1;
-      border-radius: 14px;
-      padding: 22px 16px 20px;
-      box-shadow: var(--shadow-3d);
-      position: relative;
-      margin-bottom: 24px;
-    }
-    .content-arch-title {
-      font-size: 17.5px;
-      font-weight: 900;
-      color: var(--gold-light);
-      text-align: center;
-      margin-bottom: 3px;
-    }
-    .content-arch-sub {
-      font-size: 11.5px;
-      color: #94a3b8;
-      text-align: center;
-      margin-bottom: 18px;
-    }
-
-    /* Inputs */
-    .field-wrap {
-      margin-bottom: 14px;
-      text-align: left;
-    }
-    .field-wrap label {
-      display: block;
-      font-size: 12px;
       font-weight: 700;
-      color: var(--gold-light);
-      margin-bottom: 5px;
-    }
-    .field-wrap input {
-      width: 100%;
-      padding: 12px 14px;
-      background: #021008;
-      border: 1.5px solid var(--gold-3);
-      border-radius: 8px;
-      font-size: 14px;
-      color: #f8fafc;
-      outline: none;
-      box-shadow: inset 0 2px 5px rgba(0,0,0,0.8);
-    }
-    .field-wrap input:focus {
-      border-color: var(--gold-2);
-      box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-    }
-
-    /* Bottom Centered Seal Above Button (NO OVERLAP) */
-    .button-medallion-container {
-      margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-    }
-    .middle-seal {
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      background: var(--gold-grad);
-      padding: 2.5px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.8), 0 0 12px rgba(212, 175, 55, 0.5);
-    }
-    .btn-emerald-3d {
-      width: 100%;
-      background: var(--emerald-btn-grad);
-      border: 2px solid transparent;
-      border-image: var(--gold-grad) 1;
-      color: var(--gold-light);
-      padding: 14px 10px;
-      border-radius: 8px;
-      font-size: 14.5px;
-      font-weight: 900;
-      cursor: pointer;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.7);
-      transition: transform 0.15s ease;
-    }
-    .btn-emerald-3d:active { transform: scale(0.98); }
-
-    /* Donation Chips */
-    .chip-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-    .chip-item {
-      flex: 1;
-      padding: 9px 0;
-      background: #02150b;
-      border: 1.5px solid var(--gold-3);
-      border-radius: 8px;
-      color: #f1f5f9;
-      font-weight: 800;
-      font-size: 13px;
-      cursor: pointer;
-    }
-    .chip-item.active {
-      background: var(--gold-grad);
-      color: #021208;
-      border-color: #fff;
-      box-shadow: 0 0 10px rgba(252, 246, 186, 0.6);
-    }
-
-    /* Aizazi Sanad View & Actions */
-    #cert-result {
-      display: none;
-      margin-top: 25px;
-    }
-    .sanad-card {
-      background: #fdfbf7;
-      border: 4px double #b45309;
-      border-radius: 14px;
-      padding: 8px;
-      box-shadow: 0 12px 35px rgba(0,0,0,0.9);
-      color: #0f172a;
-    }
-    .sanad-inner {
-      border: 2px solid #d97706;
-      border-radius: 8px;
-      padding: 20px 12px 16px;
       text-align: center;
-      background: radial-gradient(#ffffff 70%, #fef3c7 100%);
-    }
-    .sanad-bismillah {
-      font-size: 22px;
-      color: #064e3b;
-      font-family: 'Amiri', serif;
-      font-weight: bold;
-    }
-    .sanad-h1 {
-      font-size: 18px;
-      font-weight: 900;
-      color: #022c22;
-    }
-    .sanad-pill {
-      display: inline-block;
-      background: var(--gold-grad);
-      color: #261601;
-      font-size: 11px;
-      font-weight: 900;
-      padding: 3px 12px;
-      border-radius: 15px;
-      margin: 8px 0 10px;
-    }
-    .sanad-photo-ring {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      background: var(--gold-grad);
-      padding: 3px;
-      margin: 0 auto 10px;
-    }
-    .sanad-photo-box {
-      width: 100%; height: 100%;
-      border-radius: 50%;
-      overflow: hidden;
-      background: #fff;
-    }
-    .sanad-photo-box img { width: 100%; height: 100%; object-fit: cover; }
-    .sanad-name {
-      font-size: 20px;
-      font-weight: 900;
-      color: #022c22;
-    }
-    .sanad-badge-txt {
-      font-size: 11.5px;
-      font-weight: 800;
-      color: #b45309;
-      margin-bottom: 10px;
-    }
-    .sanad-desc {
-      font-size: 12px;
-      line-height: 1.6;
-      color: #334155;
-      margin: 0 8px 14px;
-    }
-    .sanad-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 4px;
-      background: #f8fafc;
-      border: 1.5px dashed #cbd5e1;
-      padding: 8px 4px;
-      border-radius: 8px;
-      margin-bottom: 12px;
-    }
-    .sanad-grid .lbl { font-size: 9.5px; color: #64748b; font-weight: 700; margin-bottom: 2px; }
-    .sanad-grid .val { font-size: 13px; font-weight: 900; color: #064e3b; }
-    .sanad-foot {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 8px;
-      border-top: 1px solid #e2e8f0;
-      font-size: 9.5px;
-      color: #64748b;
-    }
-
-    .btn-gold-action {
-      background: var(--gold-grad);
-      color: #2b1700;
-      border: none;
-      width: 100%;
-      padding: 13px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 900;
       cursor: pointer;
-      margin-top: 14px;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.7);
-    }
-    .btn-whatsapp-action {
-      background: #16a34a;
-      color: #fff;
+      text-decoration: none;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      text-decoration: none;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    }
+
+    /* Search & Sanad Box */
+    .search-card {
+      background: var(--card-bg);
+      border: 1.5px solid #d4af37;
+      border-radius: 14px;
+      padding: 18px 16px;
+      margin-bottom: 20px;
+    }
+    .card-heading {
+      text-align: center;
+      color: #ffd700;
+      font-size: 17px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .card-desc {
+      text-align: center;
+      font-size: 11px;
+      color: #94a3b8;
+      margin-bottom: 14px;
+    }
+    .form-group {
+      margin-bottom: 12px;
+    }
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #cbd5e1;
+      margin-bottom: 4px;
+    }
+    .form-input {
+      width: 100%;
+      background: #01190f;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+    }
+    .form-input:focus {
+      border-color: #ffd700;
+      box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+    }
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #094a2b, #042917);
+      border: 1.5px solid #d4af37;
+      color: #fff2a8;
+      font-size: 15px;
+      font-weight: 800;
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+
+    /* Certificate / Sanad Result View */
+    #sanad-result-block {
+      display: none;
+      margin-top: 20px;
+    }
+    .sanad-print-box {
+      background: #021f14;
+      border: 3px double #d4af37;
+      border-radius: 12px;
+      padding: 20px 16px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+    }
+    .sanad-bismillah {
+      font-family: 'Amiri', serif;
+      font-size: 22px;
+      color: #ffd700;
+      margin-bottom: 6px;
+    }
+    .sanad-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffd700;
+      margin-bottom: 12px;
+      border-bottom: 1px dashed rgba(212, 175, 55, 0.4);
+      padding-bottom: 6px;
+    }
+    .avatar-wrapper {
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      border: 2px solid #ffd700;
+      margin: 0 auto 10px auto;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    }
+    .avatar-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .sanad-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+    .sanad-amt-box {
+      display: inline-block;
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid #d4af37;
+      padding: 4px 16px;
+      border-radius: 20px;
+      color: #fef08a;
+      font-size: 16px;
+      font-weight: 800;
+      margin: 6px 0 12px 0;
+    }
+    .sanad-text {
+      font-size: 12px;
+      color: #e2e8f0;
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+    .sanad-seal {
+      font-family: 'Amiri', serif;
+      font-size: 13px;
+      color: #ffd700;
+      border-top: 1px solid rgba(212, 175, 55, 0.3);
+      padding-top: 8px;
+    }
+
+    /* Download & Share Buttons */
+    .btn-dl {
+      width: 100%;
+      background: var(--gold-gradient);
+      color: #042013;
+      border: none;
+      font-size: 14px;
+      font-weight: 800;
       padding: 12px;
       border-radius: 8px;
-      font-size: 13.5px;
-      font-weight: bold;
-      margin-top: 10px;
+      cursor: pointer;
+      margin-top: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
+    .btn-wa {
+      width: 100%;
+      background: #25d366;
+      color: #ffffff;
+      border: none;
+      font-size: 14px;
+      font-weight: 800;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 8px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
 
-    /* QR Payment Box */
+    /* Donation / Payment Section */
+    .chips-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .chip-item {
+      background: #01190f;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      color: #fef08a;
+      padding: 8px 4px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .chip-item.active {
+      background: #d4af37;
+      color: #042013;
+      border-color: #ffd700;
+    }
     #payment-modal {
       display: none;
-      text-align: center;
-      margin-top: 18px;
-      padding-top: 15px;
-      border-top: 1px dashed var(--gold-3);
-    }
-    .qr-container {
-      width: 180px;
-      height: 180px;
-      margin: 10px auto;
-      border: 3px solid var(--gold-2);
+      background: #011d12;
+      border: 2px solid #d4af37;
       border-radius: 12px;
-      padding: 6px;
-      background: #fff;
-    }
-    .qr-container img { width: 100%; height: 100%; object-fit: contain; }
-
-    /* Footer Copyright Section */
-    .portal-footer {
-      width: 100%;
+      padding: 16px;
       text-align: center;
-      padding: 18px 10px 10px;
-      border-top: 1px solid rgba(212, 175, 55, 0.3);
-      color: #94a3b8;
-      font-size: 11.5px;
-      line-height: 1.6;
+      margin-top: 15px;
     }
-    .portal-footer b { color: var(--gold-light); }
+    .qr-box {
+      background: #ffffff;
+      padding: 10px;
+      display: inline-block;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+
+    /* Footer */
+    .portal-footer {
+      text-align: center;
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 25px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+    }
   </style>
 </head>
-<body class="notranslate">
+<body>
 
-  <!-- Top Ribbon Ticker -->
-  <div class="ticker-container">
-    <div class="ribbon-badge">🔴 लाइव ताआवु़न</div>
-    <marquee class="ticker-scroll" behavior="scroll" direction="left" scrollamount="5">
-      ✨ Imran Khan: <b>₹200</b> &nbsp;&nbsp;&nbsp; ✨ Saif Ali: <b>₹100</b> &nbsp;&nbsp;&nbsp; ✨ Zuheb Ali: <b>₹100</b> &nbsp;&nbsp;&nbsp; ✨ Ayub Khan: <b>₹200</b> &nbsp;&nbsp;&nbsp; ✨ MD Aman: <b>₹101</b> &nbsp;&nbsp;&nbsp; ✨ Kurban Khan: <b>₹200</b> &nbsp;&nbsp;&nbsp; ✨ MD Sajid Khan: <b>₹101</b> &nbsp;&nbsp;&nbsp; ✨ MD Suhel Khan: <b>₹200</b> &nbsp;&nbsp;&nbsp; ✨ Shasamd Alam: <b>₹101</b> &nbsp;&nbsp;&nbsp; ✨ Sarfraj Ahmed: <b>₹100</b> &nbsp;&nbsp;&nbsp; ✨ Istiyak Ali: <b>₹100</b> &nbsp;&nbsp;&nbsp; ✨ MD Amzad Khan: <b>₹100</b> &nbsp;&nbsp;&nbsp; ✨ Shabir Khan: <b>₹100</b>
-    </marquee>
-  </div>
+  <div class="app-container">
 
-  <div class="main-app-box">
-
-    <!-- Header Section -->
-    <div class="portal-header">
-      <div class="header-medallions-wrap">
-        <div class="coin-medallion">
-          <div class="coin-inner">الله</div>
+    <!-- 1. Live Scrolling Ticker -->
+    <div class="ticker-bar">
+      <div class="ticker-badge">🔴 लाइव ताआवुन</div>
+      <div class="ticker-marquee">
+        <div class="ticker-content" id="ticker-slider">
+          ✨ Kurban Khan: ₹200 &nbsp;|&nbsp; ✨ Shasamd Alam: ₹101 &nbsp;|&nbsp; ✨ Sarfraj Ahmed: ₹100 &nbsp;|&nbsp; ✨ Imran Khan: ₹200
         </div>
-        <div class="coin-medallion">
-          <div class="coin-inner">محمد ﷺ</div>
-        </div>
-      </div>
-
-      <div class="bismillah-top">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
-
-      <div class="portal-plaque-title">
-        <div class="portal-name">गुलज़ारबाग कमिटी पोर्टल</div>
-        <div class="portal-sub">इज्तिमाई खिदमत, ताआवु़न व डिजिटल ए'ज़ाज़ी सनद</div>
       </div>
     </div>
 
-    <!-- 3D Event Navigation -->
-    <div class="nav-tabs-3d">
-      <div class="nav-tab-btn active" id="tab-milad">
-        <div class="tab-head">🟢 मिलादुन्नबी ﷺ</div>
-        <div class="tab-sub">(या रसूल अल्लाह)</div>
+    <!-- 2. Top Islamic Medallions -->
+    <div class="islamic-header">
+      <div class="medallion">الله</div>
+      <div class="bismillah-art">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+      <div class="medallion">محمد ﷺ</div>
+    </div>
+
+    <!-- 3. Portal Title Banner -->
+    <div class="portal-banner">
+      <div class="portal-title">गुलज़ारबाग कमेटी पोर्टल</div>
+      <div class="portal-subtitle">इत्तिमाई खिदमत, ताआवुन व डिजिटल ए'ज़ाज़ी सनद</div>
+    </div>
+
+    <!-- 4. Event Selector Tabs -->
+    <div class="tabs-row">
+      <div class="tab-btn active" data-tab="milad">
+        🟢 मिलादुन्नबी ﷺ
+        <small>(या रसूल अल्लाह)</small>
       </div>
-      <div class="nav-tab-btn" id="tab-muharram">
-        <div class="tab-head">🏴 मुहर्रम-उल-हराम</div>
-        <div class="tab-sub">(या हुसैन - या अली)</div>
+      <div class="tab-btn" data-tab="muharram">
+        🏴 मुहर्रम-उल-हराम
+        <small>(या हुसैन - या अली)</small>
       </div>
     </div>
 
-    <!-- Fund Status Royal Box -->
-    <div class="fund-status-box">
-      <div class="fund-top-row">
-        <div class="fund-heading" id="fund-title-label">मिलाद परचम मुहिम फ़ंड</div>
-        <div class="live-pill">लाइव रिकॉर्ड</div>
+    <!-- 5. Live Fund & Donors Display Card -->
+    <div class="fund-card">
+      <div class="fund-header">
+        <div class="fund-title" id="fund-card-title">मिलाद परचम मुहिम फ़ंड</div>
+        <div class="badge-live">लाइव रिकॉर्ड</div>
       </div>
-      <div class="fund-number" id="fund-val-label">₹2,904</div>
+      <div class="fund-amount" id="total-fund-val">₹2,904</div>
       <div class="progress-track">
-        <div class="progress-fill" id="fund-bar-fill" style="width: 12%;"></div>
+        <div class="progress-fill" id="progress-fill" style="width: 12%;"></div>
       </div>
-      <div class="fund-foot-row">
-        <span>कुल मुआवि़न: <b id="donor-count-label">21 मुआवि़न</b></span>
-        <span>हदफ़ (लक्ष्य): <b id="fund-target-label">₹25,000</b></span>
+      <div class="fund-footer">
+        <span id="total-donors-val">कुल मुआ़विन: 21 मुआ़विन</span>
+        <span>हदफ़ (लक्ष्य): ₹25,000</span>
       </div>
     </div>
 
-    <!-- Action Selectors -->
-    <div class="action-row-plaques">
-      <div class="action-plaque active" id="btn-show-search">📜 ए'ज़ाज़ी सनद खोजें</div>
-      <div class="action-plaque" id="btn-show-donate">🤝 ताआवु़न पेश करें</div>
+    <!-- 6. Quick Action Buttons -->
+    <div class="quick-actions">
+      <a href="#search-section" class="btn-action">📜 ए'ज़ाज़ी सनद खोजें</a>
+      <a href="#donation-section" class="btn-action">🤝 ताआवुन पेश करें</a>
     </div>
 
-    <!-- Panel 1: Search Aizazi Sanad -->
-    <div class="content-arch-box" id="panel-search">
-      <div class="content-arch-title">डिजिटल ए'ज़ाज़ी सनद तलाश करें</div>
-      <div class="content-arch-sub">मुआवि़न (सहयोगी) का नाम या मोबाइल नंबर दर्ज करें</div>
-
-      <div class="field-wrap">
-        <label>मुआवि़न का नाम (Name)</label>
-        <input type="text" id="srch-name" placeholder="उदा. Ku×××n K××n">
-      </div>
-      <div class="field-wrap">
-        <label>मोबाइल नंबर (यदि दर्ज हो)</label>
-        <input type="tel" id="srch-phone" placeholder="उदा. 87××××××43">
+    <!-- 7. Digital Sanad Search Box -->
+    <div class="search-card" id="search-section">
+      <div class="card-heading">डिजिटल ए'ज़ाज़ी सनद तलाश करें</div>
+      <div class="card-desc">मुआ़विन (सहयोगी) का नाम या मोबाइल नंबर दर्ज करें</div>
+      
+      <div class="form-group">
+        <label class="form-label">मुआ़विन का नाम (Name)</label>
+        <input type="text" id="search-name" class="form-input" placeholder="उदा. Kurban Khan" />
       </div>
 
-      <div class="button-medallion-container">
-        <div class="middle-seal">
-          <div class="coin-inner" style="font-size: 13px;">بِسْمِ اللهِ</div>
-        </div>
-        <button type="button" class="btn-emerald-3d" id="btn-do-search">
-          तस्दीक़ करें एवं सनद देखें
-        </button>
+      <div class="form-group">
+        <label class="form-label">मोबाइल नंबर (यदि दर्ज हो)</label>
+        <input type="tel" id="search-phone" class="form-input" placeholder="उदा. 8766278943" />
       </div>
 
-      <!-- Generated Sanad Sheet -->
-      <div id="cert-result">
-        <div class="sanad-card" id="sanad-print-area">
-          <div class="sanad-inner">
-            <div class="sanad-bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
-            <div class="sanad-h1" id="cert-event-title">गुलज़ारबाग परचम मुहिम</div>
-            <div class="sanad-pill">डिजिटल ए'ज़ाज़ी सनद • اعزازی سند</div>
+      <div style="text-align:center; margin: 10px 0;">
+        <div class="medallion" style="margin: 0 auto; width: 44px; height: 44px; font-size: 13px;">بِسْمِ اللَّهِ</div>
+      </div>
 
-            <div class="sanad-photo-ring">
-              <div class="sanad-photo-box">
-                <img id="cert-person-img" src="" alt="Photo" onerror="this.src='https://ui-avatars.com/api/?name=Member&background=064e3b&color=fff'">
-              </div>
-            </div>
+      <button type="button" class="btn-submit" id="btn-search-sanad">तस्दीक़ करें एवं सनद देखें</button>
 
-            <div class="sanad-name" id="cert-person-name">Kurban Khan</div>
-            <div class="sanad-badge-txt">★ बा-वक़ार मुआवि़न / Honored Contributor (معاون) ★</div>
+      <!-- Digital Sanad Generated View -->
+      <div id="sanad-result-block">
+        <div class="sanad-print-box" id="sanad-print-area">
+          <div class="sanad-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+          <div class="sanad-title" id="cert-event-title">गुलज़ारबाग कमेटी • ए'ज़ाज़ी सनद</div>
+          
+          <div class="avatar-wrapper">
+            <img id="cert-person-img" src="file_00000000847c81fd958fc6e7cd0917f7.png" alt="Photo" onerror="this.src='https://ui-avatars.com/api/?name=Muavin&background=0a4d2e&color=fef08a&bold=true';" />
+          </div>
+          
+          <div class="sanad-name" id="cert-person-name">KURBAN KHAN</div>
+          <div class="sanad-amt-box" id="cert-amount">ताआवु़न रकम: ₹200</div>
+          
+          <div class="sanad-text">
+            अल्हम्दुलिल्लाह! आपके इस ख़ालिस ताआवुन को गुलज़ारबाग कमेटी द्वारा सादर स्वीकार किया गया। अल्लाह तआला आपकी इस ख़िदमत को अपनी बारगाह में क़बूल फ़रमाए। आमीन।
+          </div>
 
-            <div class="sanad-desc">
-              मुबारक मौके पर गुलज़ारबाग कमिटी में आपके ख़ालिस माली व ज़ाती <b>ताआवु़न (تعاون)</b> की दिल से क़द्र करते हुए यह <b>ए'ज़ाज़ी सनद (اعزازی سند)</b> पेश की जाती है।
-            </div>
-
-            <div class="sanad-grid">
-              <div>
-                <div class="lbl">रक़म-ए-ताआवु़न</div>
-                <div class="val" id="cert-amt-val">₹200</div>
-              </div>
-              <div>
-                <div class="lbl">ज़रिया (Mode)</div>
-                <div class="val" id="cert-mode-val">Cash</div>
-              </div>
-              <div>
-                <div class="lbl">तस्दीक़ स्थिति</div>
-                <div class="val" style="color:#047857;">✓ मुसद्दक़ा</div>
-              </div>
-            </div>
-
-            <div class="sanad-foot">
-              <span>गुलज़ारबाग कमिटी</span>
-              <span style="color:#047857; font-weight:bold;">🛡️ ऑफिशियल डिजिटल रिकॉर्ड</span>
-              <span>बरवाडीह</span>
-            </div>
+          <div class="sanad-seal">
+            गुलज़ारबाग कमेटी पोर्टल • <b>बरवाडीह</b> (2026)
           </div>
         </div>
 
-        <button type="button" class="btn-gold-action" id="btn-dl-sanad">📥 एचडी में डाउनलोड करें (Download HD)</button>
-        <a id="btn-wa-share" href="#" target="_blank" class="btn-whatsapp-action">💬 WhatsApp पर शेयर करें</a>
+        <button type="button" class="btn-dl" id="btn-dl-sanad">📥 एचडी में डाउनलोड करें (Download HD)</button>
+        <a href="#" target="_blank" class="btn-wa" id="btn-wa-share">💬 व्हाट्सएप पर शेयर करें</a>
       </div>
     </div>
 
-    <!-- Panel 2: Online Taawun / Payment -->
-    <div class="content-arch-box" id="panel-donate" style="display: none;">
-      <div class="content-arch-title">कमिटी में ताआवु़न / इमदाद पेश करें</div>
-      <div class="content-arch-sub">सीधे UPI / QR कोड के ज़रिए ताआवु़न भेजें</div>
+    <!-- 8. Online Donation / UPI Section -->
+    <div class="search-card" id="donation-section">
+      <div class="card-heading">ऑनलाइन ताआवुन पेश करें</div>
+      <div class="card-desc">कमेटी फ़ंड में सीधे UPI द्वारा अपना हिस्सा शामिल करें</div>
 
-      <div class="field-wrap">
-        <label>आपका नाम (मुआवि़न)</label>
-        <input type="text" id="pay-donor-name" placeholder="अपना नाम दर्ज करें">
-      </div>
-      <div class="field-wrap">
-        <label>मोबाइल नंबर</label>
-        <input type="tel" id="pay-donor-phone" placeholder="10 अंकों का मोबाइल नंबर">
+      <div class="chips-grid">
+        <div class="chip-item" data-val="100">₹100</div>
+        <div class="chip-item active" data-val="200">₹200</div>
+        <div class="chip-item" data-val="500">₹500</div>
+        <div class="chip-item" data-val="1000">₹1000</div>
       </div>
 
-      <div class="field-wrap">
-        <label>रक़म-ए-ताआवु़न चुनें (₹)</label>
-        <div class="chip-row">
-          <button type="button" class="chip-item" data-val="100">®50</button>
-          <button type="button" class="chip-item" data-val="100">₹100</button>
-          <button type="button" class="chip-item active" data-val="200">₹200</button>
-          <button type="button" class="chip-item" data-val="500">₹500</button>
-          <button type="button" class="chip-item" data-val="1000">₹1000</button>
-        </div>
-        <input type="number" id="pay-custom-amt" value="200" placeholder="अन्य रक़म दर्ज करें">
+      <div class="form-group">
+        <label class="form-label">ताआवुन रकम (₹)</label>
+        <input type="number" id="pay-custom-amt" class="form-input" value="200" placeholder="रकम दर्ज करें" />
       </div>
 
-      <button type="button" class="btn-emerald-3d" id="btn-make-qr" style="margin-top: 10px;">
-        पेमेंट QR कोड प्राप्त करें
-      </button>
+      <div class="form-group">
+        <label class="form-label">आपका मुबारक नाम (Name)</label>
+        <input type="text" id="pay-donor-name" class="form-input" placeholder="उदा. Kurban Khan" />
+      </div>
+
+      <button type="button" class="btn-submit" id="btn-make-qr">पेमेंट QR कोड प्राप्त करें</button>
 
       <div id="payment-modal">
-        <div class="qr-container">
-          <img id="qr-result-img" src="" alt="Payment QR">
+        <div style="font-weight: 700; color: #ffd700;" id="qr-amt-title">ताआवु़न रकम: ₹200</div>
+        <div class="qr-box">
+          <img id="qr-result-img" src="" alt="Payment QR" style="width: 180px; height: 180px; display: block;" />
         </div>
-        <div style="font-size: 15px; font-weight: 800; color: var(--gold-light);" id="qr-amt-title">ताआवु़न रक़म: ₹200</div>
-        <div style="font-size: 11px; color: #cbd5e1; margin: 4px 0 12px;">Google Pay, PhonePe या Paytm से स्कैन करें</div>
-        <a id="upi-direct-btn" href="#" class="btn-emerald-3d" style="display: inline-block; text-decoration: none; padding: 12px 18px;">
-          📲 सीधे UPI ऐप से ताआवु़न भेजें
-        </a>
+        <div style="font-size: 11px; color: #cbd5e1; margin-bottom: 10px;">Google Pay / PhonePe / Paytm से स्कैन करें</div>
+        <a id="upi-direct-btn" href="#" class="btn-action" style="background: var(--gold-gradient); color: #042013;">📲 सीधे UPI ऐप से ताआवुन भेजें</a>
       </div>
     </div>
 
-    <!-- Footer / Copyright -->
+    <!-- 9. Portal Footer -->
     <div class="portal-footer">
-      <div>गुलज़ारबाग कमिटी पोर्टल • <b>बरवाडीह</b></div>
+      <div>गुलज़ारबाग कमेटी पोर्टल • <b>बरवाडीह</b></div>
       <div style="margin-top: 4px; opacity: 0.75;">© 2026 सर्वाधिकार सुरक्षित • सामूहिक खिदमत व डिजिटल रिकॉर्ड</div>
     </div>
 
   </div>
 
+  <!-- JavaScript Logic -->
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      var UPI_ID = "kurbankhan9503@kotak";
-      var COMMITTEE_NAME = "Gulzarbagh Committee";
-      var currentTab = "milad";
+  document.addEventListener("DOMContentLoaded", function() {
+    const SHEET_API = "https://script.google.com/macros/s/AKfycbx5FAVkswOefzTigVUsXxIZ9ef9di0tBfMWlyfrsPmjNVhcK0Hk8zB5lZZQygRzgD8Z/exec";
+    const UPI_ID = "kurbankhan9503@kotak";
+    const COMMITTEE_NAME = "Gulzarbagh Committee";
+    const TARGET_AMOUNT = 25000;
 
-      var dataStore = {
-        milad: {
-          title: "मिलाद परचम मुहिम फ़ंड",
-          certTitle: "गुलज़ारबाग परचम मुहिम",
-          target: "₹25,000",
-          totalFund: "₹2,904",
-          donors: "21 मुआवि़न",
-          progress: "12%",
-          members: [
-            { name: "Imran Khan (Aimaan)", phone: "8709436710", amount: "₹200", mode: "Online UPI", photo: "IMG-20260827-WA0003.jpg" },
-            { name: "Saif Ali", phone: "", amount: "₹100", mode: "Online UPI", photo: "" },
-            { name: "Zuheb Ali", phone: "9771637121", amount: "₹100", mode: "Online UPI", photo: "IMG-20260825-WA0005.jpg" },
-            { name: "Ayub Khan", phone: "", amount: "₹200", mode: "Online UPI", photo: "" },
-            { name: "MD Aman", phone: "", amount: "₹101", mode: "Online UPI", photo: "" },
-            { name: "Kurban Khan", phone: "8766278943", amount: "₹200", mode: "Cash", photo: "file_00000000847c81fd958fc6e7cd0917f7.png" },
-            { name: "MD Sajid Khan", phone: "", amount: "₹101", mode: "Online UPI", photo: "" },
-            { name: "MD Suhel Khan", phone: "", amount: "₹200", mode: "Online UPI", photo: "" },
-            { name: "Shasamd Alam", phone: "6287065341", amount: "₹101", mode: "Online UPI", photo: "FB_IMG_1787833795936.jpg" },
-            { name: "Sarfraj Ahmed (Sonu Ansari)", phone: "9304016057", amount: "₹100", mode: "Online UPI", photo: "" },
-            { name: "Istiyak Ali (Sajan Wastray)", phone: "", amount: "₹100", mode: "Online UPI", photo: "" },
-            { name: "MD Amzad Khan (Rinku Khan)", phone: "", amount: "₹100", mode: "Online UPI", photo: "" },
-            { name: "Shabir Khan", phone: "8287835628", amount: "₹100", mode: "Online UPI", photo: "Snapchat-1946430987.jpg" },
-            { name: "Shamim Qureshi", phone: "", amount: "₹100", mode: "Online UPI", photo: "" },
-            { name: "MD Tousif Rja", phone: "", amount: "₹101", mode: "Online UPI", photo: "" },
-            { name: "Firoz Khan", phone: "8287251586", amount: "₹200", mode: "Online UPI", photo: "FB_IMG_1787834845277.jpg" },
-            { name: "Shahrukh Khan", phone: "", amount: "₹200", mode: "Online UPI", photo: "" },
-            { name: "MD Irfan Alam", phone: "6206988854", amount: "₹100", mode: "Online UPI", photo: "IMG_20260827_175412.jpg" },
-            { name: "Aaftab Khan", phone: "6200393622", amount: "₹300", mode: "Online UPI", photo: "FB_IMG_1787834344167.jpg" },
-            { name: "Rehan Khan", phone: "", amount: "₹100", mode: "Online UPI", photo: "" },
-            { name: "Shaukat Khan (Saju Khan)", phone: "", amount: "₹100", mode: "Cash", photo: "" }
-          ]
-        },
-        muharram: {
-          title: "मुहर्रम सबील व लंगर फ़ंड",
-          certTitle: "गुलज़ारबाग मुहर्रम कमिटी",
-          target: "₹30,000",
-          totalFund: "₹0.0",
-          donors: "0 मुआवि़न",
-          progress: "0%",
-          members: [
-            { name: "Kurban Khan", phone: "8766278943", amount: "₹500", mode: "Cash", photo: "" }
-          ]
+    let currentTab = "milad";
+
+    // Backup List of 21 Members (So nothing gets lost!)
+    const defaultMiladMembers = [
+      { name: "Imran Khan (Aimaan)", phone: "8709436710", amount: "₹200", mode: "Online UPI", photo: "", event: "milad" },
+      { name: "Saif Ali", phone: "", amount: "₹100", mode: "Online UPI", photo: "", event: "milad" },
+      { name: "Zuheb Ali", phone: "9771637121", amount: "₹100", mode: "Online UPI", photo: "", event: "milad" },
+      { name: "Ayub Khan", phone: "", amount: "₹200", mode: "Online UPI", photo: "", event: "milad" },
+      { name: "MD Aman", phone: "", amount: "₹101", mode: "Online UPI", photo: "", event: "milad" },
+      { name: "Kurban Khan", phone: "8766278943", amount: "₹200", mode: "Cash", photo: "file_00000000847c81fd958fc6e7cd0917f7.png", event: "milad" },
+      { name: "MD Sajid Khan", phone: "", amount: "₹101", mode: "Online UPI", photo: "", event: "milad" },
+      { name: "MD Suhel Khan", phone: "", amount: "₹200", mode: "Online UPI", photo: "", event: "milad" },
+      { name: "Shasamd Alam", phone: "6287065341", amount: "₹101", mode: "Online UPI", photo: "", event: "milad" },
+      { name: "Sarfraj Ahmed (Sonu Ansari)", phone: "9304016057", amount: "₹100", mode: "Online UPI", photo: "", event: "milad" },
+      { name: "Istiyak Ali (Sajan Wastray)", phone: "", amount: "₹100", mode: "Online UPI", photo: "", event: "milad" },
+      { name: "MD Amzad Khan (Rinku Khan)", phone: "", amount: "₹100", mode: "Online UPI", photo: "", event: "milad" },
+      { name: "Shabir Khan", phone: "8287835628", amount: "₹100", mode: "Online UPI", photo: "", event: "milad" },
+      { name: "Shamim Qureshi", phone: "", amount: "₹100", mode: "Online UPI", photo: "", event: "milad" },
+      { name: "MD Tousif Rja", phone: "", amount: "₹101", mode: "Online UPI", photo: "", event: "milad" },
+      { name: "Firoz Khan", phone: "8287251586", amount: "₹200", mode: "Online UPI", photo: "", event: "milad" },
+      { name: "Shahrukh Khan", phone: "", amount: "₹200", mode: "Online UPI", photo: "", event: "milad" },
+      { name: "MD Irfan Alam", phone: "6206988854", amount: "₹100", mode: "Online UPI", photo: "", event: "milad" },
+      { name: "Aaftab Khan", phone: "6200393622", amount: "₹300", mode: "Online UPI", photo: "", event: "milad" },
+      { name: "Rehan Khan", phone: "", amount: "₹100", mode: "Online UPI", photo: "", event: "milad" },
+      { name: "Shaukat Khan (Saju Khan)", phone: "", amount: "₹100", mode: "Online UPI", photo: "", event: "milad" }
+    ];
+
+    let sheetMembers = [...defaultMiladMembers];
+
+    // 1. Fetch & Merge Data from Google Sheet
+    async function loadData() {
+      try {
+        const res = await fetch(SHEET_API);
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          sheetMembers = data.length > 5 ? data : mergeMembers(defaultMiladMembers, data);
+          updateUI();
+          updateTicker();
         }
-      };
-
-      // Tab Switching
-      var tabMilad = document.getElementById("tab-milad");
-      var tabMuharram = document.getElementById("tab-muharram");
-
-      function refreshFundDisplay(tabKey) {
-        var d = dataStore[tabKey];
-        document.getElementById("fund-title-label").textContent = d.title;
-        document.getElementById("fund-val-label").textContent = d.totalFund;
-        document.getElementById("fund-bar-fill").style.width = d.progress;
-        document.getElementById("donor-count-label").textContent = d.donors;
-        document.getElementById("fund-target-label").textContent = d.target;
-        document.getElementById("cert-result").style.display = "none";
+      } catch (e) {
+        console.log("Using backup local data", e);
       }
+    }
 
-      tabMilad.addEventListener("click", function() {
-        currentTab = "milad";
-        tabMilad.classList.add("active");
-        tabMuharram.classList.remove("active");
-        refreshFundDisplay("milad");
+    function mergeMembers(defaults, fromSheet) {
+      const list = [...defaults];
+      fromSheet.forEach(sItem => {
+        const exists = list.find(d => (d.name || "").toLowerCase() === (sItem.name || "").toLowerCase());
+        if (!exists && sItem.name) {
+          list.push(sItem);
+        }
+      });
+      return list;
+    }
+
+    // 2. Update Total Fund, Count & Progress
+    function updateUI() {
+      const filtered = sheetMembers.filter(m => (m.event || "").toString().toLowerCase().trim() === currentTab);
+      
+      let totalAmt = 0;
+      filtered.forEach(m => {
+        let val = parseInt(String(m.amount).replace(/[^0-9]/g, "")) || 0;
+        totalAmt += val;
       });
 
-      tabMuharram.addEventListener("click", function() {
-        currentTab = "muharram";
-        tabMuharram.classList.add("active");
-        tabMilad.classList.remove("active");
-        refreshFundDisplay("muharram");
+      const totalCount = filtered.length;
+      const progress = Math.min(100, Math.round((totalAmt / TARGET_AMOUNT) * 100));
+
+      const fundTitle = document.getElementById("fund-card-title");
+      const amtEl = document.getElementById("total-fund-val");
+      const countEl = document.getElementById("total-donors-val");
+      const barEl = document.getElementById("progress-fill");
+
+      if (fundTitle) fundTitle.innerText = currentTab === "milad" ? "मिलाद परचम मुहिम फ़ंड" : "मुहर्रम-उल-हराम फ़ंड";
+      if (amtEl) amtEl.innerText = "₹" + totalAmt.toLocaleString("en-IN");
+      if (countEl) countEl.innerText = "कुल मुआ़विन: " + totalCount + " मुआ़विन";
+      if (barEl) barEl.style.width = Math.max(8, progress) + "%";
+    }
+
+    // 3. Update Scrolling Ticker
+    function updateTicker() {
+      const tickerWrap = document.getElementById("ticker-slider");
+      if (!tickerWrap || sheetMembers.length === 0) return;
+
+      let html = "";
+      sheetMembers.slice(-25).reverse().forEach(m => {
+        let amt = parseInt(String(m.amount).replace(/[^0-9]/g, "")) || 0;
+        html += ` &nbsp; ✨ <b>${m.name}:</b> ₹${amt} &nbsp; | &nbsp;`;
       });
+      tickerWrap.innerHTML = html;
+    }
 
-      // Panel Selectors
-      var btnShowSearch = document.getElementById("btn-show-search");
-      var btnShowDonate = document.getElementById("btn-show-donate");
-      var panelSearch = document.getElementById("panel-search");
-      var panelDonate = document.getElementById("panel-donate");
-
-      btnShowSearch.addEventListener("click", function() {
-        btnShowSearch.classList.add("active");
-        btnShowDonate.classList.remove("active");
-        panelSearch.style.display = "block";
-        panelDonate.style.display = "none";
+    // 4. Tab Switcher
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", function() {
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        this.classList.add("active");
+        currentTab = this.getAttribute("data-tab") || "milad";
+        updateUI();
       });
+    });
 
-      btnShowDonate.addEventListener("click", function() {
-        btnShowDonate.classList.add("active");
-        btnShowSearch.classList.remove("active");
-        panelDonate.style.display = "block";
-        panelSearch.style.display = "none";
-      });
-
-      // Search Action
-      var btnSearch = document.getElementById("btn-do-search");
+    // 5. Sanad Search
+    const btnSearch = document.getElementById("btn-search-sanad");
+    if (btnSearch) {
       btnSearch.addEventListener("click", function() {
-        var nInput = document.getElementById("srch-name").value.trim().toLowerCase();
-        var pInput = document.getElementById("srch-phone").value.trim();
+        const nameVal = (document.getElementById("search-name")?.value || "").trim().toLowerCase();
+        const phoneVal = (document.getElementById("search-phone")?.value || "").trim().replace(/[^0-9]/g, "");
 
-        if (!nInput && !pInput) {
-          alert("कृपया मुआवि़न का नाम या मोबाइल नंबर दर्ज करें।");
+        if (!nameVal && !phoneVal) {
+          alert("कृपया नाम या मोबाइल नंबर दर्ज करें!");
           return;
         }
 
-        var mList = dataStore[currentTab].members;
-        var record = mList.find(function(m) {
-          var nameOk = nInput && m.name.toLowerCase().includes(nInput);
-          var phoneOk = pInput && m.phone && m.phone.includes(pInput);
-          return nameOk || phoneOk;
+        const found = sheetMembers.find(m => {
+          const mName = (m.name || "").toString().toLowerCase();
+          const mPhone = (m.phone || "").toString().replace(/[^0-9]/g, "");
+          return (nameVal && mName.includes(nameVal)) || (phoneVal && mPhone.includes(phoneVal));
         });
 
-        if (record) {
-          document.getElementById("cert-event-title").textContent = dataStore[currentTab].certTitle;
-          document.getElementById("cert-person-name").textContent = record.name;
-          document.getElementById("cert-amt-val").textContent = record.amount;
-          document.getElementById("cert-mode-val").textContent = record.mode;
+        if (found) {
+          const resultBlock = document.getElementById("sanad-result-block");
+          const cName = document.getElementById("cert-person-name");
+          const cAmt = document.getElementById("cert-amount");
+          const cImg = document.getElementById("cert-person-img");
+          const waBtn = document.getElementById("btn-wa-share");
 
-          var photoElem = document.getElementById("cert-person-img");
-          photoElem.src = record.photo ? record.photo : "https://ui-avatars.com/api/?name=" + encodeURIComponent(record.name) + "&background=064e3b&color=fff";
+          const amt = parseInt(String(found.amount).replace(/[^0-9]/g, "")) || 0;
 
-          var resBlock = document.getElementById("cert-result");
-          resBlock.style.display = "block";
-          resBlock.scrollIntoView({ behavior: "smooth" });
+          if (cName) cName.textContent = found.name.toUpperCase();
+          if (cAmt) cAmt.textContent = "ताआवु़न रकम: ₹" + amt;
+          
+          if (cImg) {
+            if (found.photo && found.photo.trim() !== "") {
+              cImg.src = found.photo;
+            } else {
+              cImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(found.name)}&background=0a4d2e&color=fef08a&bold=true`;
+            }
+          }
 
-          var shareTxt = "🌹 *गुलज़ारबाग कमिटी पोर्टल* 🌹\n\nअलहम्दुलिल्लाह! मोहतराम *" + record.name + "* साहब की तरफ़ से " + dataStore[currentTab].certTitle + " में *" + record.amount + "* का बा-बरकत *ताआवु़न (تعاون)* मौसूल हुआ है।\n\n📜 डिजिटल ए'ज़ाज़ी सनद देखने के लिए पोर्टल पर तशरीफ़ लाएं।";
-          document.getElementById("btn-wa-share").href = "https://wa.me/?text=" + encodeURIComponent(shareTxt);
+          if (waBtn) {
+            const shareMsg = `🌹 *गुलज़ारबाग कमेटी पोर्टल*\n\nअल्हम्दुलिल्लाह! मोहतरम *${found.name}* साहब ने कमेटी में ₹${amt} का ख़ालिस ताआवुन पेश किया है।\n\nअपनी डिजिटल सनद देखने के लिए यहाँ क्लिक करें:\nhttps://kurbankhan9503-dotcom.github.io/`;
+            waBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareMsg)}`;
+          }
+
+          if (resultBlock) {
+            resultBlock.style.display = "block";
+            resultBlock.scrollIntoView({ behavior: "smooth" });
+          }
         } else {
-          alert("रिकॉर्ड में यह नाम या नंबर नहीं मिला। कृपया सही विवरण दर्ज करें।");
+          alert("रिकॉर्ड में यह नाम या नंबर नहीं मिला। कृपया सही विवरण दर्ज करें!");
         }
       });
+    }
 
-      // Sanad HD Download
-      document.getElementById("btn-dl-sanad").addEventListener("click", function() {
-        var node = document.getElementById("sanad-print-area");
-        var self = this;
+    // 6. HD Sanad Download
+    const btnDl = document.getElementById("btn-dl-sanad");
+    if (btnDl) {
+      btnDl.addEventListener("click", function() {
+        const node = document.getElementById("sanad-print-area");
+        const self = this;
         self.innerText = "⏳ सनद तैयार की जा रही है...";
         self.disabled = true;
 
-        html2canvas(node, { scale: 3, useCORS: true, backgroundColor: null }).then(function(canvas) {
-          var a = document.createElement("a");
-          var name = document.getElementById("cert-person-name").textContent.trim();
-          a.download = "Aizazi-Sanad-" + name.replace(/\s+/g, "_") + ".png";
+        html2canvas(node, { scale: 3, useCORS: true, backgroundColor: "#021f14" }).then(canvas => {
+          const a = document.createElement("a");
+          const name = document.getElementById("cert-person-name")?.textContent.trim() || "Sanad";
+          a.download = `Aizazi-Sanad-${name.replace(/\s+/g, "_")}.png`;
           a.href = canvas.toDataURL("image/png");
           a.click();
           self.innerText = "📥 एचडी में डाउनलोड करें (Download HD)";
           self.disabled = false;
-        }).catch(function() {
-          alert("डाउनलोड करने में समस्या आई।");
+        }).catch(err => {
+          alert("डाउनलोड में समस्या आई!");
           self.innerText = "📥 एचडी में डाउनलोड करें (Download HD)";
           self.disabled = false;
         });
       });
+    }
 
-      // Donation Amount Chips
-      var chips = document.querySelectorAll(".chip-item");
-      var customInput = document.getElementById("pay-custom-amt");
+    // 7. Donation Chips & QR
+    const chips = document.querySelectorAll(".chip-item");
+    const customInput = document.getElementById("pay-custom-amt");
 
-      chips.forEach(function(chip) {
-        chip.addEventListener("click", function() {
-          chips.forEach(function(c) { c.classList.remove("active"); });
-          this.classList.add("active");
-          customInput.value = this.getAttribute("data-val");
-        });
+    chips.forEach(chip => {
+      chip.addEventListener("click", function() {
+        chips.forEach(c => c.classList.remove("active"));
+        this.classList.add("active");
+        if (customInput) customInput.value = this.getAttribute("data-val");
       });
+    });
 
-      // UPI QR Generate
-      document.getElementById("btn-make-qr").addEventListener("click", function() {
-        var amt = customInput.value.trim();
-        var dName = document.getElementById("pay-donor-name").value.trim() || "Muawin";
-
+    const btnMakeQr = document.getElementById("btn-make-qr");
+    if (btnMakeQr) {
+      btnMakeQr.addEventListener("click", function() {
+        const amt = customInput ? customInput.value.trim() : "200";
         if (!amt || Number(amt) <= 0) {
-          alert("कृपया सही रक़म दर्ज करें।");
+          alert("कृपया सही रकम दर्ज करें!");
           return;
         }
 
-        var upiUri = "upi://pay?pa=" + UPI_ID + "&pn=" + encodeURIComponent(COMMITTEE_NAME) + "&am=" + amt + "&cu=INR&tn=" + encodeURIComponent(dName + " Taawun");
-        var qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" + encodeURIComponent(upiUri);
+        const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(COMMITTEE_NAME)}&am=${amt}&cu=INR`;
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
 
-        document.getElementById("qr-result-img").src = qrUrl;
-        document.getElementById("qr-amt-title").textContent = "ताआवु़न रक़म: ₹" + amt;
-        document.getElementById("upi-direct-btn").href = upiUri;
+        const qrImg = document.getElementById("qr-result-img");
+        const amtTitle = document.getElementById("qr-amt-title");
+        const upiBtn = document.getElementById("upi-direct-btn");
+        const pModal = document.getElementById("payment-modal");
 
-        var pModal = document.getElementById("payment-modal");
-        pModal.style.display = "block";
-        pModal.scrollIntoView({ behavior: "smooth" });
+        if (qrImg) qrImg.src = qrUrl;
+        if (amtTitle) amtTitle.textContent = "ताआवु़न रकम: ₹" + amt;
+        if (upiBtn) upiBtn.href = upiUrl;
+
+        if (pModal) {
+          pModal.style.display = "block";
+          pModal.scrollIntoView({ behavior: "smooth" });
+        }
       });
-    });
+    }
+
+    // Initialize UI
+    updateUI();
+    updateTicker();
+    loadData();
+  });
   </script>
 </body>
 </html>
