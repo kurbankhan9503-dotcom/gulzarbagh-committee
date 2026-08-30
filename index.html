@@ -50,18 +50,18 @@
       position: relative;
     }
 
-    /* 1. Flash In / Hold / Slide Out Top Bar */
+    /* 1. Flash In / Hold / Slide Out Top Bar (With Photo) */
     .ticker-bar {
       background: linear-gradient(90deg, #b8860b, #ffd700, #b8860b);
       color: #042013;
-      padding: 6px 12px;
+      padding: 6px 10px;
       border-radius: 0 0 14px 14px;
       display: flex;
       align-items: center;
       overflow: hidden;
       box-shadow: 0 4px 12px rgba(0,0,0,0.5);
       margin-bottom: 15px;
-      min-height: 38px;
+      min-height: 40px;
     }
     .ticker-badge {
       background: #021f12;
@@ -70,7 +70,7 @@
       border-radius: 20px;
       font-size: 11px;
       font-weight: 800;
-      margin-right: 10px;
+      margin-right: 8px;
       white-space: nowrap;
       display: flex;
       align-items: center;
@@ -81,12 +81,14 @@
       flex: 1;
       position: relative;
       overflow: hidden;
-      height: 22px;
+      height: 28px;
       display: flex;
       align-items: center;
     }
     .flash-slide-item {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       white-space: nowrap;
       opacity: 0;
       transform: translateX(60px);
@@ -103,6 +105,16 @@
       opacity: 0;
       transform: translateX(-60px);
       transition: transform 0.35s cubic-bezier(0.5, 0, 0.75, 0), opacity 0.35s ease;
+    }
+    .ticker-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1.5px solid #042013;
+      object-fit: cover;
+      background: #042013;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+      flex-shrink: 0;
     }
 
     /* Islamic Top Medallions */
@@ -495,11 +507,14 @@
 
   <div class="app-container">
 
-    <!-- 1. Flash In -> 2s Hold -> Slide Out Ticker -->
+    <!-- 1. Flash In -> 2s Hold -> Slide Out Ticker (With Avatar) -->
     <div class="ticker-bar">
       <div class="ticker-badge">🔴 ताज़ा ताआवुन</div>
       <div class="ticker-flash-box" id="flash-box">
-        <span class="flash-slide-item" id="flash-text">✨ Kurban Khan: ₹200</span>
+        <span class="flash-slide-item" id="flash-text">
+          <img src="file_00000000847c81fd958fc6e7cd0917f7.png" class="ticker-avatar" alt="" onerror="this.src='https://ui-avatars.com/api/?name=Kurban+Khan&background=042013&color=ffd700&bold=true&size=64';" />
+          <span><b>Kurban Khan:</b> ₹200</span>
+        </span>
       </div>
     </div>
 
@@ -729,7 +744,7 @@
       if (barEl) barEl.style.width = Math.max(8, progress) + "%";
     }
 
-    // 3. Flash In -> 2-Sec Hold -> Slide Out Ticker Engine
+    // 3. Flash In -> 2-Sec Hold -> Slide Out Ticker (WITH AVATAR / PHOTO)
     function startFlashTicker() {
       if (tickerTimer) clearInterval(tickerTimer);
       const flashBox = document.getElementById("flash-box");
@@ -742,7 +757,20 @@
         const member = activeList[tickerIndex % activeList.length];
         const amt = parseInt(String(member.amount).replace(/[^0-9]/g, "")) || 0;
 
-        flashBox.innerHTML = `<span class="flash-slide-item">✨ <b>${member.name}:</b> ₹${amt.toLocaleString("en-IN")}</span>`;
+        // Determine Photo / Avatar URL
+        let photoUrl = "";
+        if (member.photo && member.photo.trim() !== "") {
+          photoUrl = member.photo.trim();
+        } else {
+          photoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=042013&color=ffd700&bold=true&size=64`;
+        }
+
+        flashBox.innerHTML = `
+          <span class="flash-slide-item">
+            <img src="${photoUrl}" class="ticker-avatar" alt="" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=042013&color=ffd700&bold=true&size=64';" />
+            <span><b>${member.name}:</b> ₹${amt.toLocaleString("en-IN")}</span>
+          </span>
+        `;
         const item = flashBox.querySelector(".flash-slide-item");
 
         // 1. Flash In quickly
@@ -759,7 +787,7 @@
       }
 
       nextSlide();
-      tickerTimer = setInterval(nextSlide, 2350); // Next item after transition completes
+      tickerTimer = setInterval(nextSlide, 2350);
     }
 
     // 4. Tab Switcher
