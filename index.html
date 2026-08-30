@@ -50,46 +50,59 @@
       position: relative;
     }
 
-    /* Live Ticker Bar */
+    /* 1. Flash In / Hold / Slide Out Top Bar */
     .ticker-bar {
       background: linear-gradient(90deg, #b8860b, #ffd700, #b8860b);
       color: #042013;
       padding: 6px 12px;
-      font-size: 13px;
-      font-weight: 700;
       border-radius: 0 0 14px 14px;
       display: flex;
       align-items: center;
       overflow: hidden;
       box-shadow: 0 4px 12px rgba(0,0,0,0.5);
       margin-bottom: 15px;
+      min-height: 38px;
     }
     .ticker-badge {
       background: #021f12;
       color: #ffd700;
-      padding: 2px 8px;
+      padding: 3px 9px;
       border-radius: 20px;
       font-size: 11px;
-      margin-right: 8px;
+      font-weight: 800;
+      margin-right: 10px;
       white-space: nowrap;
       display: flex;
       align-items: center;
       gap: 4px;
+      flex-shrink: 0;
     }
-    .ticker-marquee {
-      white-space: nowrap;
+    .ticker-flash-box {
+      flex: 1;
+      position: relative;
       overflow: hidden;
-      display: inline-block;
-      width: 100%;
+      height: 22px;
+      display: flex;
+      align-items: center;
     }
-    .ticker-content {
+    .flash-slide-item {
       display: inline-block;
-      padding-left: 100%;
-      animation: marquee 25s linear infinite;
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateX(60px);
+      transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s ease;
+      color: #042013;
+      font-size: 13px;
+      font-weight: 700;
     }
-    @keyframes marquee {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(-100%, 0); }
+    .flash-slide-item.in-view {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .flash-slide-item.out-view {
+      opacity: 0;
+      transform: translateX(-60px);
+      transition: transform 0.35s cubic-bezier(0.5, 0, 0.75, 0), opacity 0.35s ease;
     }
 
     /* Islamic Top Medallions */
@@ -188,7 +201,6 @@
       padding: 18px 16px;
       margin-bottom: 16px;
       box-shadow: 0 6px 20px rgba(0,0,0,0.45);
-      position: relative;
     }
     .fund-header {
       display: flex;
@@ -202,7 +214,6 @@
       color: #e2e8f0;
     }
     .badge-live {
-      background: #fbf5b7;
       background: var(--gold-gradient);
       color: #042013;
       font-size: 10px;
@@ -336,7 +347,6 @@
       border-radius: 12px;
       padding: 20px 16px;
       text-align: center;
-      position: relative;
       box-shadow: 0 8px 25px rgba(0,0,0,0.7);
     }
     .sanad-bismillah {
@@ -485,13 +495,11 @@
 
   <div class="app-container">
 
-    <!-- 1. Live Scrolling Ticker -->
+    <!-- 1. Flash In -> 2s Hold -> Slide Out Ticker -->
     <div class="ticker-bar">
-      <div class="ticker-badge">🔴 लाइव ताआवुन</div>
-      <div class="ticker-marquee">
-        <div class="ticker-content" id="ticker-slider">
-          ✨ Kurban Khan: ₹200 &nbsp;|&nbsp; ✨ Shasamd Alam: ₹101 &nbsp;|&nbsp; ✨ Sarfraj Ahmed: ₹100 &nbsp;|&nbsp; ✨ Imran Khan: ₹200
-        </div>
+      <div class="ticker-badge">🔴 ताज़ा ताआवुन</div>
+      <div class="ticker-flash-box" id="flash-box">
+        <span class="flash-slide-item" id="flash-text">✨ Kurban Khan: ₹200</span>
       </div>
     </div>
 
@@ -563,7 +571,7 @@
 
       <button type="button" class="btn-submit" id="btn-search-sanad">तस्दीक़ करें एवं सनद देखें</button>
 
-      <!-- Digital Sanad Generated View -->
+      <!-- Digital Sanad View -->
       <div id="sanad-result-block">
         <div class="sanad-print-box" id="sanad-print-area">
           <div class="sanad-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
@@ -641,8 +649,10 @@
     const TARGET_AMOUNT = 25000;
 
     let currentTab = "milad";
+    let tickerTimer = null;
+    let tickerIndex = 0;
 
-    // Backup List of 21 Members (So nothing gets lost!)
+    // Default Backup of 21 Members
     const defaultMiladMembers = [
       { name: "Imran Khan (Aimaan)", phone: "8709436710", amount: "₹200", mode: "Online UPI", photo: "", event: "milad" },
       { name: "Saif Ali", phone: "", amount: "₹100", mode: "Online UPI", photo: "", event: "milad" },
@@ -669,7 +679,7 @@
 
     let sheetMembers = [...defaultMiladMembers];
 
-    // 1. Fetch & Merge Data from Google Sheet
+    // 1. Fetch & Merge Data
     async function loadData() {
       try {
         const res = await fetch(SHEET_API);
@@ -677,10 +687,10 @@
         if (Array.isArray(data) && data.length > 0) {
           sheetMembers = data.length > 5 ? data : mergeMembers(defaultMiladMembers, data);
           updateUI();
-          updateTicker();
+          startFlashTicker();
         }
       } catch (e) {
-        console.log("Using backup local data", e);
+        console.log("Using local backup", e);
       }
     }
 
@@ -695,7 +705,7 @@
       return list;
     }
 
-    // 2. Update Total Fund, Count & Progress
+    // 2. Update UI Stats
     function updateUI() {
       const filtered = sheetMembers.filter(m => (m.event || "").toString().toLowerCase().trim() === currentTab);
       
@@ -719,17 +729,37 @@
       if (barEl) barEl.style.width = Math.max(8, progress) + "%";
     }
 
-    // 3. Update Scrolling Ticker
-    function updateTicker() {
-      const tickerWrap = document.getElementById("ticker-slider");
-      if (!tickerWrap || sheetMembers.length === 0) return;
+    // 3. Flash In -> 2-Sec Hold -> Slide Out Ticker Engine
+    function startFlashTicker() {
+      if (tickerTimer) clearInterval(tickerTimer);
+      const flashBox = document.getElementById("flash-box");
+      if (!flashBox || sheetMembers.length === 0) return;
 
-      let html = "";
-      sheetMembers.slice(-25).reverse().forEach(m => {
-        let amt = parseInt(String(m.amount).replace(/[^0-9]/g, "")) || 0;
-        html += ` &nbsp; ✨ <b>${m.name}:</b> ₹${amt} &nbsp; | &nbsp;`;
-      });
-      tickerWrap.innerHTML = html;
+      const activeList = sheetMembers.slice(-25).reverse();
+
+      function nextSlide() {
+        if (activeList.length === 0) return;
+        const member = activeList[tickerIndex % activeList.length];
+        const amt = parseInt(String(member.amount).replace(/[^0-9]/g, "")) || 0;
+
+        flashBox.innerHTML = `<span class="flash-slide-item">✨ <b>${member.name}:</b> ₹${amt.toLocaleString("en-IN")}</span>`;
+        const item = flashBox.querySelector(".flash-slide-item");
+
+        // 1. Flash In quickly
+        setTimeout(() => {
+          if (item) item.classList.add("in-view");
+        }, 20);
+
+        // 2. Hold for ~1.8 seconds, then slide out
+        setTimeout(() => {
+          if (item) item.classList.add("out-view");
+        }, 1900);
+
+        tickerIndex++;
+      }
+
+      nextSlide();
+      tickerTimer = setInterval(nextSlide, 2350); // Next item after transition completes
     }
 
     // 4. Tab Switcher
@@ -860,9 +890,9 @@
       });
     }
 
-    // Initialize UI
+    // Init
     updateUI();
-    updateTicker();
+    startFlashTicker();
     loadData();
   });
   </script>
