@@ -290,6 +290,40 @@
       box-shadow: 0 3px 10px rgba(0,0,0,0.3);
     }
 
+    /* Notice Banner for Photo Update */
+    .notice-card {
+      background: linear-gradient(135deg, rgba(8, 48, 28, 0.95), rgba(2, 26, 16, 0.95));
+      border: 1.5px dashed #ffd700;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+    }
+    .notice-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .notice-title {
+      color: #ffd700;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 3px;
+    }
+    .notice-desc {
+      font-size: 11px;
+      color: #e2e8f0;
+      line-height: 1.5;
+    }
+    .notice-desc a {
+      color: #fef08a;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
     /* Search & Sanad Box */
     .search-card {
       background: var(--card-bg);
@@ -349,7 +383,7 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     }
 
-    /* Certificate / Sanad Result View (FIXED PHOTO CROPPING) */
+    /* Certificate / Sanad Result View */
     #sanad-result-block {
       display: none;
       margin-top: 20px;
@@ -390,7 +424,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: top center; /* सिर/चेहरा कभी नहीं कटेगा */
+      object-position: top center;
       display: block;
     }
     .sanad-name {
@@ -496,12 +530,57 @@
       margin: 10px 0;
     }
 
+    /* Contact Us / Support Bar (Above Footer) */
+    .contact-card {
+      background: linear-gradient(135deg, rgba(6, 44, 26, 0.95), rgba(2, 22, 13, 0.95));
+      border: 1.5px solid #25d366;
+      border-radius: 14px;
+      padding: 16px;
+      margin-top: 20px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+    .contact-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #ffd700;
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .contact-text {
+      font-size: 11px;
+      color: #cbd5e1;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    .btn-contact-wa {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #25d366;
+      color: #ffffff;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+      transition: transform 0.2s ease;
+    }
+    .btn-contact-wa:active {
+      transform: scale(0.98);
+    }
+
     /* Footer */
     .portal-footer {
       text-align: center;
       font-size: 11px;
       color: #94a3b8;
-      margin-top: 25px;
+      margin-top: 20px;
       padding-top: 15px;
       border-top: 1px solid rgba(212, 175, 55, 0.2);
     }
@@ -569,7 +648,18 @@
       <a href="#donation-section" class="btn-action">🤝 ताआवुन पेश करें</a>
     </div>
 
-    <!-- 7. Digital Sanad Search Box -->
+    <!-- 7. Photo Update & Help Notice Banner -->
+    <div class="notice-card">
+      <div class="notice-icon">📢</div>
+      <div class="notice-content">
+        <div class="notice-title">फ़ोटो अपडेट व सुधार सूचना</div>
+        <div class="notice-desc">
+          जिन मुआ़विनीन का <b>फ़ोटो</b> पोर्टल पर नहीं दिख रहा है या नाम/नंबर में कोई सुधार करवाना हो, वे नीचे <a href="#contact-section">"कमेटी संपर्क"</a> पर टैप करके अपना फ़ोटो व मोबाइल नंबर व्हाट्सएप करें।
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. Digital Sanad Search Box -->
     <div class="search-card" id="search-section">
       <div class="card-heading">डिजिटल ए'ज़ाज़ी सनद तलाश करें</div>
       <div class="card-desc">मुआ़विन (सहयोगी) का नाम या मोबाइल नंबर दर्ज करें</div>
@@ -617,7 +707,7 @@
       </div>
     </div>
 
-    <!-- 8. Online Donation / UPI Section -->
+    <!-- 9. Online Donation / UPI Section -->
     <div class="search-card" id="donation-section">
       <div class="card-heading">ऑनलाइन ताआवुन पेश करें</div>
       <div class="card-desc">कमेटी फ़ंड में सीधे UPI द्वारा अपना हिस्सा शामिल करें</div>
@@ -651,7 +741,21 @@
       </div>
     </div>
 
-    <!-- 9. Portal Footer -->
+    <!-- 10. Contact Us / Support Bar (Direct WhatsApp Redirect) -->
+    <div class="contact-card" id="contact-section">
+      <div class="contact-header">
+        <span>💬</span>
+        <span>कमेटी राब्ता व सहायता (Contact Us)</span>
+      </div>
+      <p class="contact-text">
+        फ़ोटो अपडेट करवाने, सनद में सुधार या किसी भी सवाल व जानकारी के लिए कमेटी से सीधे व्हाट्सएप पर राब्ता फ़रमाएं:
+      </p>
+      <a href="https://wa.me/918766278943?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%DA%A9%D9%85!%20%E0%A4%AE%E0%A5%81%E0%A4%9D%E0%A5%87%20%E0%A4%97%E0%A5%81%E0%A4%B2%E0%A4%9C%E0%A4%BC%E0%A4%BE%E0%A4%B0%E0%A4%AC%E0%A4%BE%E0%A4%97%20%E0%A4%95%E0%A4%AE%E0%A5%87%E0%A4%9F%E0%A5%80%20%E0%A4%AA%E0%A5%8B%E0%A4%B0%E0%A5%8D%E0%A4%9F%E0%A4%B2%20%E0%A4%AA%E0%A4%B0%20%E0%A4%85%E0%A4%AA%E0%A4%A8%E0%A4%BE%20%E0%A4%AB%E0%A4%BC%E0%A5%8B%E0%A4%9F%E0%A5%8B%20/%20%E0%A4%B5%E0%A4%BF%E0%A4%B5%E0%A4%B0%E0%A4%A3%20%E0%A4%85%E0%A4%AA%E0%A4%A1%E0%A5%87%E0%A4%9F%20%E0%A4%95%E0%A4%B0%E0%A4%B5%E0%A4%BE%E0%A4%A8%E0%A4%BE%20%E0%A4%B9%E0%A5%88%E0%A5%A4" target="_blank" class="btn-contact-wa">
+        📲 व्हाट्सएप पर फोटो / सवाल भेजें
+      </a>
+    </div>
+
+    <!-- 11. Portal Footer -->
     <div class="portal-footer">
       <div>गुलज़ारबाग कमेटी पोर्टल • <b>बरवाडीह</b></div>
       <div style="margin-top: 4px; opacity: 0.75;">© 2026 सर्वाधिकार सुरक्षित • सामूहिक खिदमत व डिजिटल रिकॉर्ड</div>
@@ -671,7 +775,7 @@
     let tickerTimer = null;
     let tickerIndex = 0;
 
-    // Default Backup of 21 Members
+    // Default Backup of 21 Members (Amzad Khan's Mobile: 8102156131)
     const defaultMiladMembers = [
       { name: "Imran Khan", phone: "8709436710", amount: "₹200", mode: "Online UPI", photo: "IMG-20260827-WA0003.jpg", event: "milad" },
       { name: "Saif Ali", phone: "", amount: "₹100", mode: "Online UPI", photo: "", event: "milad" },
@@ -684,7 +788,7 @@
       { name: "Shasamd Alam", phone: "6287065341", amount: "₹101", mode: "Online UPI", photo: "FB_IMG_1787833795936.jpg", event: "milad" },
       { name: "Sarfraj Ahmed", phone: "9304016057", amount: "₹100", mode: "Online UPI", photo: "", event: "milad" },
       { name: "Istiyak Ali", phone: "", amount: "₹100", mode: "Online UPI", photo: "", event: "milad" },
-      { name: "MD Amzad Khan", phone: "8202156131", amount: "₹100", mode: "Online UPI", photo: "FB_IMG_1787855881874.jpg", event: "milad" },
+      { name: "MD Amzad Khan", phone: "8102156131", amount: "₹100", mode: "Online UPI", photo: "FB_IMG_1787855881874.jpg", event: "milad" },
       { name: "Shabir Khan", phone: "8287835628", amount: "₹100", mode: "Online UPI", photo: "Snapchat-1946430987.jpg", event: "milad" },
       { name: "Shamim Qureshi", phone: "", amount: "₹100", mode: "Online UPI", photo: "", event: "milad" },
       { name: "MD Tousif Rja", phone: "", amount: "₹101", mode: "Online UPI", photo: "", event: "milad" },
@@ -820,7 +924,6 @@
           const nameMatches = nameVal ? mName.includes(nameVal) : false;
           const phoneMatches = phoneVal ? (mPhone && (mPhone === phoneVal || mPhone.includes(phoneVal))) : false;
 
-          // STRICT CHECK: अगर दोनों दर्ज हैं तो दोनों सही होने ज़रूरी हैं
           if (nameVal && phoneVal) {
             return nameMatches && phoneMatches;
           } else if (nameVal) {
